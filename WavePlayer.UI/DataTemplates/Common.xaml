@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Audios="clr-namespace:WavePlayer.Audios;assembly=WavePlayer"
+                    xmlns:converters="clr-namespace:WavePlayer.UI.Converters">
+    <converters:TimeConverter x:Key="TimeConverter"/>
+    <DataTemplate DataType="{x:Type Audios:Album}">
+        <Border BorderThickness="0" 
+                    Padding="5,2,5,5" 
+                    VerticalAlignment="Stretch" 
+                    HorizontalAlignment="Stretch">
+            <TextBlock VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Margin="{StaticResource PageTitleMargin}"
+                           FontSize="14"
+                           Text="{Binding Title, Mode=OneWay}"/>
+        </Border>
+    </DataTemplate>
+ 
+</ResourceDictionary>

@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="WavePlayer.UI.Controls.PopularMusicControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+             xmlns:behaviors="clr-namespace:WavePlayer.UI.Behaviors"
+             xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:Audios="clr-namespace:WavePlayer.Audios;assembly=WavePlayer"
+             xmlns:converters="clr-namespace:WavePlayer.UI.Converters"
+             xmlns:controls="clr-namespace:WavePlayer.UI.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="640" d:DesignWidth="700"
+             d:DataContext="{Binding Path=PopularMusicViewModel, Source={StaticResource DesignTimeViewModelsLocator}}">
+
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type Audios:Genre}">
+            <Border BorderThickness="0" 
+                    Padding="5,2,5,5" 
+                    VerticalAlignment="Stretch" 
+                    HorizontalAlignment="Stretch">
+                <TextBlock VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Margin="{StaticResource PageTitleMargin}"
+                           FontSize="14"
+                           Text="{Binding Name, Mode=OneWay}"/>
+            </Border>
+        </DataTemplate>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:OppositeBooleanConverter x:Key="OppositeBooleanConverter"/>
+    </UserControl.Resources>
+
+    <Grid Background="{DynamicResource WhiteBrush}" x:Name="Grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition Width="0.2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{StaticResource PageContentTitleHeightLength}"/>
+            <RowDefinition Height="272*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <metroControls:MetroProgressBar  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+                                         VerticalAlignment="Bottom" 
+                                         HorizontalAlignment="Stretch"
+                                         Margin="10,0,10,0"
+                                         Visibility="{Binding IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                         Foreground="{DynamicResource AccentColorBrush}" 
+                                         IsIndeterminate="{Binding IsLoading, Mode=OneWay}"/>
+
+        <TextBlock Grid.Row="0" Grid.Column="1"
+                   Text="{Binding GenresCount, Mode=OneWay}" 
+                   Foreground="{DynamicResource GrayBrush4}"  
+                   Margin="{StaticResource PageTitleMargin}"
+                   FontSize="{StaticResource SectionFontSize}"
+                   FontWeight="{StaticResource ItemFontWeight}"
+                   VerticalAlignment="Center"/>
+
+        <ListBox Grid.Row="1" Grid.Column="1"
+                 x:Name="GenresListBox"
+                 ItemContainerStyle="{StaticResource WaveplayListBoxItem}"  
+                 SelectedItem="{Binding CurrentGenre, Mode=OneWay}"
+                 IsEnabled="{Binding IsLoading, Mode=OneWay, Converter={StaticResource OppositeBooleanConverter}}"
+                 ItemsSource="{Binding Genres, Mode=OneWay}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged" SourceName="GenresListBox">
+                    <i:InvokeCommandAction Command="{Binding SetupAudiosCommand}" CommandParameter="{Binding ElementName=GenresListBox, Path=SelectedValue, Mode=OneWay}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Loaded" SourceName="GenresListBox">
+                    <i:InvokeCommandAction Command="{Binding SetupGenresCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>
+
+        <CheckBox x:Name="UseFilterCheckBox" 
+                  Grid.Row="2" Grid.Column="1" 
+                  Margin="10,5,10,5" 
+                  IsEnabled="{Binding IsLoading, Mode=OneWay, Converter={StaticResource OppositeBooleanConverter}}"                 
+                  IsChecked="{Binding UseFilter, Mode=TwoWay}">
+            <TextBlock Text="{Binding OnlyForeignArtists, Mode=OneWay}"
+                       Foreground="{DynamicResource GrayBrush3}"  
+                       FontSize="14"
+                       FontWeight="{StaticResource ItemFontWeight}"
+                       VerticalAlignment="Center"/>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Checked" SourceName="UseFilterCheckBox">
+                    <i:InvokeCommandAction Command="{Binding SetupAudiosCommand}" CommandParameter="{Binding ElementName=GenresListBox, Path=SelectedValue, Mode=OneWay}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Unchecked" SourceName="UseFilterCheckBox">
+                    <i:InvokeCommandAction Command="{Binding SetupAudiosCommand}" CommandParameter="{Binding ElementName=GenresListBox, Path=SelectedValue, Mode=OneWay}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </CheckBox>
+
+        <TextBlock Grid.Row="0" Grid.Column="0"
+                       Text="{Binding TracksCount, Mode=OneWay}"
+                       Foreground="{DynamicResource GrayBrush3}"  
+                       Margin="{StaticResource PageTitleMargin}"
+                       FontSize="{StaticResource SectionFontSize}"
+                       FontWeight="{StaticResource ItemFontWeight}"
+                       VerticalAlignment="Center"/>
+
+        <controls:TracksControl Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"/>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="WavePlayer.UI.Controls.WelcomeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:ViewModels="clr-namespace:WavePlayer.UI.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="640" d:DesignWidth="900"         
+             d:DataContext="{Binding Path=WelcomeViewModel, Source={StaticResource DesignTimeViewModelsLocator}}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/flatbutton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type ViewModels:LoginViewModel}">
+                <Grid>
+                    <Button Margin="0,0,0,40" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource WaveplayButton}" Click="LoginButtonClick">
+                        <TextBlock Text="{Binding SignInString, Mode=OneWay}" Style="{DynamicResource WaveplayButtonTextBlock}"/>
+                    </Button>
+
+                    <Button Height="30" Padding="25,5,25,5" Margin="0,40,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                            Command="{Binding SignupCommand,Mode=OneWay}"
+                            Style="{DynamicResource WaveplayLinkButton}">
+                        <TextBlock Text="{Binding SignupString, Mode=OneWay}" Style="{DynamicResource WaveplayButtonTextBlock}"/>
+                    </Button>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type ViewModels:LoadInfoViewModel}">
+                <Grid>
+                    <TextBlock VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Margin="0,80,0,0"
+                               FontWeight="Light"
+                               FontSize="18"
+                               Foreground="{DynamicResource GrayBrush2}"
+                               Text="{Binding LoadAccountString, Mode=OneWay}"/>
+                    <controls:MetroProgressBar Margin="0,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Foreground="{DynamicResource AccentColorBrush}" IsIndeterminate="True"/>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="25*"/>
+        </Grid.ColumnDefinitions>
+
+        <Rectangle Grid.Column="1" Grid.Row="0"
+                   Fill="{DynamicResource HighlightBrush}" OpacityMask="{StaticResource waveplay_logo_brush}" Margin="0,0,0,80" Height="180" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="200"/>
+       
+        <TextBlock Grid.Column="1"
+                   Grid.Row="0"
+                   FontWeight="Light"
+                   FontSize="25"
+                   Foreground="{DynamicResource GrayBrush1}"
+                   Text="{Binding ProductNameString, Mode=OneWay}" Margin="0,0,0,270" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="0"
+                   FontWeight="Light"
+                   FontSize="18"
+                   Foreground="{DynamicResource GrayBrush1}"
+                   Text="{Binding ProductSloganString, Mode=OneWay}" Margin="0,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+
+        <controls:TransitioningContentControl x:Name="WelcomeContentControl"
+                                              Grid.Column="1"
+                                              Grid.Row="1"
+                                              Transition="Left"
+                                              RestartTransitionOnContentChange="True"
+                                              Content="{Binding Path=CurrentView, Mode=OneWay}"/>
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="2"
+                   VerticalAlignment="Bottom"
+                   HorizontalAlignment="Center"
+                   FontWeight="Normal"
+                   FontSize="10"
+                   Margin="0,0,0,10"
+                   Foreground="{DynamicResource GrayBrush2}"
+                   Text="{Binding ProductCopyrightString, Mode=OneWay}"/>
+    </Grid>
+</UserControl>

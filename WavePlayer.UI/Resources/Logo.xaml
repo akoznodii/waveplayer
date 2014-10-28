@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DrawingBrush x:Key="waveplay_logo_brush" Stretch="Fill">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="{DynamicResource AccentColorBrush}" Geometry="F1 M 66.75,17.25L 79.95,17.25L 28.8,108L 106.35,108L 114.6,121.2L 7.35002,121.2L 66.75,17.25 Z ">
+                        <GeometryDrawing.Pen>
+                            <Pen LineJoin="Bevel"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="{DynamicResource AccentColorBrush2}" Geometry="F1 M 79.95,17.25L 28.8,108L 43.65,108L 81.6,42L 137.7,132.75L 142.65,119.55L 79.95,17.25 Z ">
+                        <GeometryDrawing.Pen>
+                            <Pen StartLineCap="Square" EndLineCap="Square" LineJoin="Round"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="{DynamicResource AccentColorBrush3}" Geometry="F1 M 137.7,132.75L 13.95,132.75L 7.35001,121.2L 114.6,121.2L 106.35,108L 75,53.55L 81.6,42L 137.7,132.75 Z ">
+                        <GeometryDrawing.Pen>
+                            <Pen LineJoin="Round"/>
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+</ResourceDictionary>

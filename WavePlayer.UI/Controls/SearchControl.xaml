@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="WavePlayer.UI.Controls.SearchControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+             xmlns:behaviors="clr-namespace:WavePlayer.UI.Behaviors"
+             xmlns:metroControls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:controls="clr-namespace:WavePlayer.UI.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="640" d:DesignWidth="700"
+             d:DataContext="{Binding Path=SearchViewModel, Source={StaticResource DesignTimeViewModelsLocator}}">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <Grid Background="{DynamicResource WhiteBrush}" x:Name="Grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="363*"/>
+        </Grid.RowDefinitions>
+
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded" SourceName="Grid">
+                <i:InvokeCommandAction Command="{Binding SetupAudiosCommand}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
+        <StackPanel  Grid.Row="0" Grid.Column="0">
+            <TextBox     x:Name="SearchTextBox"
+                         Foreground="{DynamicResource GrayBrush3}"  
+                         FontSize="{StaticResource SectionFontSize}"
+                         Margin="10,0,10,0"
+                         FontWeight="{StaticResource ItemFontWeight}"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         MinWidth="200"
+                         Text="{Binding Query, Mode=OneWay}"
+                         metroControls:TextboxHelper.Watermark="{Binding Title, Mode=OneWay}"
+                         metroControls:TextboxHelper.ButtonCommand="{Binding SetupAudiosCommand, Mode=OneWay}"
+                         Style="{DynamicResource SearchMetroTextBox}"
+                         ForceCursor="True">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding SetupAudiosCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=SearchTextBox, Path=Text, Mode=OneWay}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+
+            <metroControls:MetroProgressBar  VerticalAlignment="Bottom" 
+                                             HorizontalAlignment="Stretch"
+                                             Margin="{StaticResource ProgressBarMargin}"
+                                             Foreground="{DynamicResource AccentColorBrush}" 
+                                             Visibility="{Binding IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                             IsIndeterminate="{Binding IsLoading, Mode=OneWay}"/>
+        </StackPanel>
+
+        <controls:TracksControl Grid.Row="1" Grid.Column="0"/>
+
+    </Grid>
+</UserControl>

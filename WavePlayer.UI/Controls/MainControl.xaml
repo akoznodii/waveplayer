@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="WavePlayer.UI.Controls.MainControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:WavePlayer.UI.Controls"
+             xmlns:ViewModels="clr-namespace:WavePlayer.UI.ViewModels"
+             xmlns:metrocontrols="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:Playlists="clr-namespace:WavePlayer.UI.ViewModels.Playlists"
+             mc:Ignorable="d"
+             d:DesignHeight="640" d:DesignWidth="900"
+             d:DataContext="{Binding Path=MainViewModel, Source={StaticResource DesignTimeViewModelsLocator}}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <VisualBrush x:Key="ArrowLeftBrush" Visual="{DynamicResource appbar_arrow_left}" Stretch="Fill"/>
+            <DataTemplate DataType="{x:Type ViewModels:PlayerViewModel}">
+                <controls:PlayerControl DataContext="{Binding}"/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:SettingsViewModel}">
+                <controls:SettingsControl DataContext="{Binding}"/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type Playlists:MyMusicViewModel}">
+                <controls:MyMusicControl DataContext="{Binding}"/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type Playlists:PopularMusicViewModel}">
+                <controls:PopularMusicControl DataContext="{Binding}"/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type Playlists:RecommendedMusicViewModel}">
+                <controls:RecommendedMusicControl DataContext="{Binding}"/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type Playlists:SearchViewModel}">
+                <controls:SearchControl DataContext="{Binding}"/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type Playlists:NowPlayingViewModel}">
+                <controls:NowPlayingControl DataContext="{Binding}"/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type Playlists:FriendsViewModel}">
+                <controls:FriendsControl DataContext="{Binding}"/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type Playlists:GroupsViewModel}">
+                <controls:GroupsControl DataContext="{Binding}"/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:LyricsViewModel}">
+                <controls:LyricsControl DataContext="{Binding}"/>
+            </DataTemplate>
+            <DataTemplate x:Key="PageItemTemplate" DataType="{x:Type ViewModels:PageViewModel}">
+                <Border BorderThickness="0" Padding="5,2,5,5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <TextBlock VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           FontWeight="Light"
+                           Margin="{StaticResource PageTitleMargin}"
+                           FontSize="16"
+                           Text="{Binding Title, Mode=OneWay}"/>
+                </Border>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="160"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{StaticResource PageTitleHeightLength}"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0" Margin="0" Background="{DynamicResource GrayBrush10}" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{StaticResource PageTitleHeightLength}"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Rectangle Grid.Column="0" Grid.Row="0"
+                   Fill="{DynamicResource HighlightBrush}" OpacityMask="{StaticResource waveplay_logo_brush}" Margin="5,2,0,2" Height="27" VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"/>
+
+            <TextBlock Grid.Column="1"
+                   Grid.Row="0"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   FontSize="20"
+                   Foreground="{DynamicResource GrayBrush2}"
+                   Text="{Binding ProductNameString, Mode=OneWay}"/>
+
+            <ListBox x:Name="PagesListBox"
+                     MinWidth="160"
+                     Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                     VerticalAlignment="Stretch"
+                     HorizontalAlignment="Right"
+                     SelectedItem="{Binding CurrentView, Mode=OneWay}"
+                     SelectedValue="{Binding SelectView, Mode=OneWayToSource}"
+                     ItemsSource="{Binding Views, Mode=OneWay}"
+                     ItemContainerStyle="{StaticResource WaveplayListBoxItem}"
+                     ItemTemplate="{StaticResource PageItemTemplate}"
+                     Background="{DynamicResource GrayBrush10}"/>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="0" Margin="0" DataContext="{Binding Path=CurrentView, Mode=OneWay}" Background="{DynamicResource WhiteBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="NavigateBackButton" Width="25" Height="25" Style="{DynamicResource WaveplayPlayerButton}" Margin="10,5,5,0" Command="{Binding NavigateBackCommand, Mode=OneWay}">
+                <Rectangle Width="16" Height="11" Fill="{Binding ElementName=NavigateBackButton, Path=Foreground}" OpacityMask="{StaticResource ArrowLeftBrush}"/>
+            </Button>
+
+            <metrocontrols:TransitioningContentControl  Grid.Column="1" 
+                                                        VerticalAlignment="Center" 
+                                                        Transition="LeftReplace" 
+                                                        x:Name="TitleTransitioningControl" 
+                                                        DataContext="{Binding Mode=OneWay, NotifyOnTargetUpdated=True}" 
+                                                        TargetUpdated="TransitioningControlTargetUpdated">
+                <TextBlock
+                   Text="{Binding Title, Mode=OneWay}" 
+                   Foreground="{DynamicResource GrayBrush2}"  
+                   Margin="0,6,0,5"
+                   FontSize="{StaticResource PageTitleFontSize}"
+                   FontWeight="{StaticResource PageFontWeight}"
+                   VerticalAlignment="Center"/>
+            </metrocontrols:TransitioningContentControl>
+        </Grid>
+
+        <metrocontrols:TransitioningContentControl Grid.Column="1"
+                                                   Grid.Row="1"
+                                                   Transition="Left"
+                                                   RestartTransitionOnContentChange="True"
+                                                   Content="{Binding Path=CurrentView, Mode=OneWay}"
+                                                   Margin="0"
+                                                   Padding="0"/>
+
+        <ContentControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding PlayerView, Mode=OneWay}"/>
+    </Grid>
+</UserControl>
