@@ -78,7 +78,6 @@ namespace WavePlayer.UI.Commands
             var currentUser = _authorizationService.CurrentUser;
 
             return audio != null &&
-                   !audio.OwnerIsGroup &&
                    currentUser != null &&
                    audio.OwnerId != currentUser.Id;
         }
