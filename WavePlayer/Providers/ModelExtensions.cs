@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using VK.Audios;
 using WavePlayer.Groups;
 using WavePlayer.Requests;
@@ -66,6 +68,11 @@ namespace WavePlayer.Providers
                 OwnerId = album.OwnerId,
                 OwnerIsGroup = album.OwnerIsGroup,
             };
+        }
+
+        public static Album DefaultAlbum(this IEnumerable<Album> albums)
+        {
+            return albums.FirstOrDefault(a => a.Id == Album.AllMusicAlbumId);
         }
     }
 }

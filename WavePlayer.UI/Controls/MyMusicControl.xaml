@@ -55,7 +55,7 @@
                     <i:InvokeCommandAction Command="{Binding SetupAudiosCommand}" CommandParameter="{Binding ElementName=AlbumsListBox, Path=SelectedValue, Mode=OneWay}"/>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="Loaded" SourceName="AlbumsListBox">
-                    <i:InvokeCommandAction Command="{Binding SetupAlbumsCommand}"/>
+                    <i:InvokeCommandAction Command="{Binding ReloadCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ListBox>

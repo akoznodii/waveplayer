@@ -100,12 +100,6 @@ namespace WavePlayer.UI.ViewModels.Playlists
                         {
                             SetupAudios(AudiosSource);
                         }
-
-                        if (Genres.Any() && 
-                            CurrentGenre == null)
-                        {
-                            CurrentGenre = Genres.First();
-                        }
                     });
                 }
 
@@ -115,25 +109,19 @@ namespace WavePlayer.UI.ViewModels.Playlists
 
         private Task SetupAudiosAsync(Genre genre)
         {
-            return Task.Factory.StartNew(() => SetupAudios(genre));
+            return Task.Factory.StartNew(() => SafeExecute(() => SetupAudios(genre), () => SetupAudiosAsync(genre)));
         }
 
         private void SetupAudios(Genre genre)
         {
-            SafeExecute(() =>
+            if (genre == null)
             {
-                if (genre == null)
-                {
-                    return;
-                }
+                return;
+            }
 
-                var audiosCollection = DataProvider.GetPopularAudios(genre, _useFilter);
+            var audiosCollection = DataProvider.GetPopularAudios(genre, _useFilter);
 
-                SetupAudios(audiosCollection);
-
-                CurrentGenre = genre;
-            },
-            () => SetupAudiosAsync(genre));
+            SetupAudios(audiosCollection);
         }
     }
 }

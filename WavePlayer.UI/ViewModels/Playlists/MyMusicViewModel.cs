@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows.Input;
 using WavePlayer.Audios;
 using WavePlayer.Authorization;
 using WavePlayer.Media;
 using WavePlayer.Providers;
-using WavePlayer.UI.Commands;
 using WavePlayer.UI.Dialogs;
 using WavePlayer.UI.Navigation;
 using WavePlayer.UI.Properties;
@@ -16,8 +13,7 @@ namespace WavePlayer.UI.ViewModels.Playlists
     public class MyMusicViewModel : AlbumsViewModel
     {
         private readonly IAuthorizationService _authorizationService;
-        private RelayCommand _setupAlbumsCommand;
-
+        
         public MyMusicViewModel(IAuthorizationService authorizationService, IPlayer player, IVkDataProvider dataProvider, IDialogService dialogService, INavigationService navigationService)
             : base(player, dataProvider, dialogService, navigationService)
         {
@@ -33,42 +29,22 @@ namespace WavePlayer.UI.ViewModels.Playlists
 
         public override ICommand SetupAlbumsCommand
         {
-            get
-            {
-                if (_setupAlbumsCommand == null)
-                {
-                    _setupAlbumsCommand = new RelayCommand(() => SetupAlbumsAsync(), () => !IsLoading);
-                }
-
-                return _setupAlbumsCommand;
-            }
+            get { return null; }
         }
 
-        private Task SetupAlbumsAsync()
+        protected override void Reload()
         {
-            return Task.Factory.StartNew(SetupAlbums);
-        }
+            base.Reload();
 
-        private void SetupAlbums()
-        {
-            SafeExecute(() =>
-            {
-                var user = _authorizationService.CurrentUser;
+            var album = CurrentAlbum;
 
-                if (user == null) { return; }
+            ResetAlbums();
 
-                var albumsCollection = DataProvider.GetUserAlbums(user);
+            var user = _authorizationService.CurrentUser;
 
-                SetupAlbums(albumsCollection);
+            var albumsCollection = DataProvider.GetUserAlbums(user);
 
-                if (AlbumsCollection != null &&
-                    AlbumsCollection.Any() &&
-                    CurrentAlbum == null)
-                {
-                    CurrentAlbum = AlbumsCollection.First();
-                }
-            },
-            () => SetupAlbumsAsync());
+            SetupAlbums(albumsCollection, album);
         }
 
         private void OnAudioRemoved(object sender, AudioEventArgs args)

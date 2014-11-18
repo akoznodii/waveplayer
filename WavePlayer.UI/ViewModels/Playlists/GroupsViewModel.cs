@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WavePlayer.Audios;
 using WavePlayer.Authorization;
 using WavePlayer.Groups;
 using WavePlayer.Media;
@@ -114,66 +115,65 @@ namespace WavePlayer.UI.ViewModels.Playlists
             RaisePropertyChanged("GroupsCount");
         }
 
-        private Task SetupAlbumsAsync(Group group)
+        protected override void Reload()
         {
-            return Task.Factory.StartNew(() => SetupAlbums(group));
+            base.Reload();
+
+            var currentGroup = CurrentGroup;
+            var currentAlbum = CurrentAlbum;
+
+            ResetGroups();
+
+            SetupGroups();
+
+            if (currentGroup == null)
+            {
+                return;
+            }
+
+            SetupAlbums(currentGroup, currentAlbum);
         }
 
-        private void SetupAlbums(Group group)
+        private Task SetupAlbumsAsync(Group group)
         {
-            SafeExecute(() =>
-            {
-                if (group == null)
-                {
-                    return;
-                }
+            return Task.Factory.StartNew(() => SafeExecute(() => SetupAlbums(group, null), () => SetupAlbumsAsync(group)));
+        }
 
+        private void SetupAlbums(Group group, Album album)
+        {
+            ResetAlbums();
+
+            CurrentGroup = group;
+
+            try
+            {
                 var albumsCollection = DataProvider.GetGroupAlbums(group);
 
-                SetupAlbums(albumsCollection);
-
-                CurrentGroup = group;
-
-                var album = AlbumsCollection != null ? AlbumsCollection.FirstOrDefault() : null;
-
-                if (album != null)
-                {
-                    SetupAudiosCommand.Execute(album);
-                }
-            },
-            () => SetupAlbumsAsync(group));
+                SetupAlbums(albumsCollection, album);
+            }
+            catch
+            {
+                ResetAlbums();
+                throw;
+            }
         }
 
         private Task SetupGroupsAsync()
         {
-            return Task.Factory.StartNew(SetupGroups);
+            return Task.Factory.StartNew(() => SafeExecute(SetupGroups, () => SetupGroupsAsync()));
         }
 
         private void SetupGroups()
         {
-            SafeExecute(() =>
-            {
-                var user = _authorizationService.CurrentUser;
+            ResetGroups();
 
-                if (user == null)
-                {
-                    return;
-                }
+            var user = _authorizationService.CurrentUser;
 
-                _groupsCollection = DataProvider.GetUserGroups(user);
+            _groupsCollection = DataProvider.GetUserGroups(user);
 
-                Groups.Reset(_groupsCollection);
+            Groups.Reset(_groupsCollection);
 
-                RaisePropertyChanged("GroupsCount");
-
-                if (_groupsCollection != null &&
-                    _groupsCollection.Any() &&
-                    CurrentGroup == null)
-                {
-                    CurrentGroup = _groupsCollection.First();
-                }
-            },
-            () => SetupGroupsAsync());
+            RaisePropertyChanged("GroupsCount");
         }
 
         private Task LoadGroupsAsync()
@@ -199,6 +199,22 @@ namespace WavePlayer.UI.ViewModels.Playlists
                 RaisePropertyChanged("GroupsCount");
             },
             () => LoadGroupsAsync());
+        }
+
+        private void ResetGroups()
+        {
+            ResetAlbums();
+
+            if (_groupsCollection == null && Groups.Count == 0)
+            {
+                return;
+            }
+
+            _groupsCollection = null;
+
+            Groups.Reset(Enumerable.Empty<Group>());
+            
+            CurrentGroup = null;
         }
     }
 }

@@ -85,7 +85,10 @@ namespace WavePlayer.UI.ViewModels.Playlists
             }
         }
 
-        public abstract ICommand SetupAlbumsCommand { get; }
+        public abstract ICommand SetupAlbumsCommand
+        {
+            get;
+        }
 
         protected ICollection<Album> AlbumsCollection { get; private set; }
 
@@ -95,18 +98,62 @@ namespace WavePlayer.UI.ViewModels.Playlists
             RaisePropertyChanged("AlbumsCount");
         }
 
-        protected void SetupAlbums(ICollection<Album> albumsCollection)
+        protected void SetupAlbums(ICollection<Album> albumsCollection, Album album)
         {
             AlbumsCollection = albumsCollection;
 
             Albums.Reset(AlbumsCollection);
 
+            var currentAlbum = album != null ? albumsCollection.FirstOrDefault(a => a.Id == album.Id && a.OwnerId == album.OwnerId && a.OwnerIsGroup == album.OwnerIsGroup) : albumsCollection.DefaultAlbum();
+
+            CurrentAlbum = currentAlbum;
+
             RaisePropertyChanged("AlbumsCount");
+        }
+
+        protected void ResetAlbums()
+        {
+            ResetAudios();
+
+            if (AlbumsCollection == null && Albums.Count == 0)
+            {
+                return;
+            }
+
+            AlbumsCollection = null;
+
+            Albums.Reset(Enumerable.Empty<Album>());
+
+            CurrentAlbum = null;
+        }
+        
+        protected void SetupAudios(Album album)
+        {
+            ResetAudios();
+
+            CurrentAlbum = album;
+
+            if (album == null)
+            {
+                return;
+            }
+
+            try
+            {
+                var audiosCollection = DataProvider.GetAlbumAudios(album);
+
+                SetupAudios(audiosCollection);
+            }
+            catch
+            {
+                ResetAudios();
+                throw;
+            }
         }
 
         private Task SetupAudiosAsync(Album album)
         {
-            return Task.Factory.StartNew(() => SetupAudios(album));
+            return Task.Factory.StartNew(() => SafeExecute(() => SetupAudios(album), () => SetupAudiosAsync(album)));
         }
 
         private Task LoadAlbumsAsync()
@@ -130,24 +177,6 @@ namespace WavePlayer.UI.ViewModels.Playlists
                 Albums.AddRange(AlbumsCollection.Skip(count));
             },
             () => LoadAlbumsAsync());
-        }
-
-        private void SetupAudios(Album album)
-        {
-            SafeExecute(() =>
-            {
-                if (album == null)
-                {
-                    return;
-                }
-
-                var audiosCollection = DataProvider.GetAlbumAudios(album);
-
-                SetupAudios(audiosCollection);
-
-                CurrentAlbum = album;
-            },
-            () => SetupAudiosAsync(album));
         }
     }
 }

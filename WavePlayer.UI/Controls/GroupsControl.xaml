@@ -88,7 +88,7 @@
                     <i:InvokeCommandAction Command="{Binding SetupAlbumsCommand}" CommandParameter="{Binding ElementName=GroupsListBox, Path=SelectedValue, Mode=OneWay}"/>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="Loaded" SourceName="GroupsListBox">
-                    <i:InvokeCommandAction Command="{Binding SetupGroupsCommand}"/>
+                    <i:InvokeCommandAction Command="{Binding ReloadCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ListBox>

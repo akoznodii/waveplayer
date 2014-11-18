@@ -122,6 +122,20 @@ namespace WavePlayer.UI.ViewModels.Playlists
             RaisePropertyChanged("TracksCount");
         }
 
+        protected void ResetAudios()
+        {
+            if (AudiosSource == null && Audios.Count == 0)
+            {
+                return;
+            }
+
+            AudiosSource = null;
+
+            Audios.Reset(Enumerable.Empty<Audio>());
+
+            RaisePropertyChanged("TracksCount");
+        }
+
         private void PlayTrack(Track track)
         {
             if (track == null ||

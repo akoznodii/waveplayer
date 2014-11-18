@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WavePlayer.Audios;
 using WavePlayer.Authorization;
 using WavePlayer.Media;
 using WavePlayer.Providers;
@@ -23,7 +24,7 @@ namespace WavePlayer.UI.ViewModels.Playlists
         private RelayCommand _setupUsersCommand;
         private RelayCommand _loadUsersCommand;
         private RelayCommand<User> _setupAlbumsCommand;
-        private ICollection<User> _friendsCollection;
+        private ICollection<User> _usersCollection;
 
         public FriendsViewModel(IAuthorizationService authorizationService, IPlayer player, IVkDataProvider dataProvider, IDialogService dialogService, INavigationService navigationService)
             : base(player, dataProvider, dialogService, navigationService)
@@ -88,7 +89,7 @@ namespace WavePlayer.UI.ViewModels.Playlists
             {
                 if (_loadUsersCommand == null)
                 {
-                    _loadUsersCommand = new RelayCommand(() => LoadUsersAsync(), () => CanLoadCollection(_friendsCollection));
+                    _loadUsersCommand = new RelayCommand(() => LoadUsersAsync(), () => CanLoadCollection(_usersCollection));
                 }
 
                 return _loadUsersCommand;
@@ -114,34 +115,52 @@ namespace WavePlayer.UI.ViewModels.Playlists
             RaisePropertyChanged("UsersCount");
         }
 
-        private Task SetupAlbumsAsync(User user)
+        protected override void Reload()
         {
-            return Task.Factory.StartNew(() => SetupAlbums(user));
+            base.Reload();
+
+            var currentUser = CurrentUser;
+            var currentAlbum = CurrentAlbum;
+
+            ResetUsers();
+
+            SetupUsers();
+
+            if (currentUser == null)
+            {
+                return;
+            }
+
+            SetupAlbums(currentUser, currentAlbum);
         }
 
-        private void SetupAlbums(User user)
+        private Task SetupAlbumsAsync(User user)
         {
-            SafeExecute(() =>
-            {
-                if (user == null)
-                {
-                    return;
-                }
+            return Task.Factory.StartNew(() => SafeExecute(() => SetupAlbums(user, null), () => SetupAlbumsAsync(user)));
+        }
 
+        private void SetupAlbums(User user, Album album)
+        {
+            ResetAlbums();
+
+            CurrentUser = user;
+
+            if (user == null)
+            {
+                return;
+            }
+
+            try
+            {
                 var albumsCollection = DataProvider.GetUserAlbums(user);
 
-                SetupAlbums(albumsCollection);
-
-                CurrentUser = user;
-
-                var album = AlbumsCollection != null ? AlbumsCollection.FirstOrDefault() : null;
-
-                if (album != null)
-                {
-                    SetupAudiosCommand.Execute(album);
-                }
-            },
-            () => SetupAlbumsAsync(user));
+                SetupAlbums(albumsCollection, album);
+            }
+            catch
+            {
+                ResetAlbums();
+                throw;
+            }
         }
 
         private Task SetupUsersAsync()
@@ -160,18 +179,11 @@ namespace WavePlayer.UI.ViewModels.Playlists
                     return;
                 }
 
-                _friendsCollection = DataProvider.GetUserFriends(user);
+                _usersCollection = DataProvider.GetUserFriends(user);
 
-                Users.Reset(_friendsCollection);
+                Users.Reset(_usersCollection);
 
                 RaisePropertyChanged("UsersCount");
-
-                if (_friendsCollection != null &&
-                    _friendsCollection.Any() &&
-                    CurrentUser == null)
-                {
-                    CurrentUser = _friendsCollection.First();
-                }
             },
             () => SetupUsersAsync());
         }
@@ -185,20 +197,36 @@ namespace WavePlayer.UI.ViewModels.Playlists
         {
             SafeExecute(() =>
             {
-                if (_friendsCollection == null)
+                if (_usersCollection == null)
                 {
                     return;
                 }
 
-                var count = _friendsCollection.Count;
+                var count = _usersCollection.Count;
 
-                DataProvider.LoadCollection(_friendsCollection);
+                DataProvider.LoadCollection(_usersCollection);
 
-                Users.AddRange(_friendsCollection.Skip(count));
+                Users.AddRange(_usersCollection.Skip(count));
 
                 RaisePropertyChanged("UsersCount");
             },
             () => LoadUsersAsync());
+        }
+
+        private void ResetUsers()
+        {
+            ResetAlbums();
+
+            if (_usersCollection == null && Users.Count == 0)
+            {
+                return;
+            }
+
+            _usersCollection = null;
+
+            Users.Reset(Enumerable.Empty<User>());
+
+            CurrentUser = null;
         }
     }
 }
