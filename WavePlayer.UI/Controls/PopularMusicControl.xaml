@@ -68,7 +68,7 @@
                     <i:InvokeCommandAction Command="{Binding SetupAudiosCommand}" CommandParameter="{Binding ElementName=GenresListBox, Path=SelectedValue, Mode=OneWay}"/>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="Loaded" SourceName="GenresListBox">
-                    <i:InvokeCommandAction Command="{Binding SetupGenresCommand}"/>
+                    <i:InvokeCommandAction Command="{Binding ReloadCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ListBox>

@@ -44,7 +44,7 @@ namespace WavePlayer.UI.DesignTime
 
                 var viewModel = Container.GetInstance<PopularMusicViewModel>();
 
-                viewModel.SetupGenresCommand.Execute(null);
+                viewModel.ReloadCommand.Execute(null);
 
                 System.Threading.Thread.Sleep(100);
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,10 +6,12 @@ using System.Windows.Input;
 using WavePlayer.Audios;
 using WavePlayer.Media;
 using WavePlayer.Providers;
+using WavePlayer.UI.Collections;
 using WavePlayer.UI.Commands;
 using WavePlayer.UI.Dialogs;
 using WavePlayer.UI.Navigation;
 using WavePlayer.UI.Properties;
+using WavePlayer.UI.Threading;
 
 namespace WavePlayer.UI.ViewModels.Playlists
 {
@@ -20,11 +21,15 @@ namespace WavePlayer.UI.ViewModels.Playlists
         private bool _useFilter;
 
         private RelayCommand<Genre> _setupAudiosCommand;
-        private RelayCommand _setupGenresCommand;
+        private ICollection<Genre> _genres;
 
         public PopularMusicViewModel(IPlayer player, IVkDataProvider dataProvider, IDialogService dialogService, INavigationService navigationService)
             : base(player, dataProvider, navigationService, dialogService)
         {
+            DispatcherHelper.InvokeOnUI(() =>
+            {
+                Genres = new CustomObservableCollection<Genre>();
+            });
         }
 
         public override string Title
@@ -70,9 +75,10 @@ namespace WavePlayer.UI.ViewModels.Playlists
             }
         }
 
-        public IEnumerable<Genre> Genres
+        public CustomObservableCollection<Genre> Genres
         {
-            get { return DataProvider.GetGenres(); }
+            get;
+            private set;
         }
 
         public override ICommand SetupAudiosCommand
@@ -88,40 +94,62 @@ namespace WavePlayer.UI.ViewModels.Playlists
             }
         }
 
-        public ICommand SetupGenresCommand
+        protected override void Reload()
         {
-            get
-            {
-                if (_setupGenresCommand == null)
-                {
-                    _setupGenresCommand = new RelayCommand(() =>
-                    {
-                        if (AudiosSource != null)
-                        {
-                            SetupAudios(AudiosSource);
-                        }
-                    });
-                }
+            base.Reload();
 
-                return _setupGenresCommand;
+            var currentGenre = CurrentGenre;
+            var useFilter = UseFilter;
+
+            ResetGenres();
+
+            _genres = DataProvider.GetGenres();
+
+            Genres.Reset(_genres);
+
+            if (_genres == null)
+            {
+                return;
             }
+
+            UseFilter = useFilter;
+
+            var genreId = currentGenre != null ? currentGenre.Id : 0;
+
+            currentGenre = _genres.FirstOrDefault(g => g.Id == genreId);
+
+            CurrentGenre = currentGenre;
         }
 
         private Task SetupAudiosAsync(Genre genre)
         {
-            return Task.Factory.StartNew(() => SafeExecute(() => SetupAudios(genre), () => SetupAudiosAsync(genre)));
+            return Task.Factory.StartNew(() => SafeExecute(() => SetupAudios(genre, UseFilter), () => SetupAudiosAsync(genre)));
         }
 
-        private void SetupAudios(Genre genre)
+        private void SetupAudios(Genre genre, bool useFilter)
         {
             if (genre == null)
             {
                 return;
             }
 
-            var audiosCollection = DataProvider.GetPopularAudios(genre, _useFilter);
+            var audiosCollection = DataProvider.GetPopularAudios(genre, useFilter);
 
             SetupAudios(audiosCollection);
+
+            CurrentGenre = genre;
+            UseFilter = useFilter;
+        }
+
+        private void ResetGenres()
+        {
+            ResetAudios();
+
+            _genres = null;
+
+            Genres.Reset(Enumerable.Empty<Genre>());
+
+            CurrentGenre = null;
         }
     }
 }
