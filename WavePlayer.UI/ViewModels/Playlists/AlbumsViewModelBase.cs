@@ -15,20 +15,20 @@ using WavePlayer.UI.Threading;
 
 namespace WavePlayer.UI.ViewModels.Playlists
 {
-    public abstract class AlbumsViewModel : PlaylistViewModel
+    public abstract class AlbumsViewModelBase : MusicViewModelBase
     {
         private Album _currentAlbum;
-
         private RelayCommand<Album> _setupAudiosCommand;
-        private RelayCommand _loadAlbumsCommand;
-
-        protected AlbumsViewModel(IPlayer player, IVkDataProvider dataProvider, IDialogService dialogService, INavigationService navigationService)
+        
+        protected AlbumsViewModelBase(IPlayer player, IVkDataProvider dataProvider, IDialogService dialogService, INavigationService navigationService)
             : base(player, dataProvider, navigationService, dialogService)
         {
             DispatcherHelper.InvokeOnUI(() =>
             {
                 Albums = new CustomObservableCollection<Album>();
             });
+
+            LoadAlbumsCommand = new RelayCommand(() => Async(() => LoadCollection(DataProvider, Albums, AlbumsSource)), () => CanLoadCollection(AlbumsSource));
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Localizable resource string")]
@@ -74,15 +74,7 @@ namespace WavePlayer.UI.ViewModels.Playlists
 
         public ICommand LoadAlbumsCommand
         {
-            get
-            {
-                if (_loadAlbumsCommand == null)
-                {
-                    _loadAlbumsCommand = new RelayCommand(() => LoadAlbumsAsync(), () => CanLoadCollection(AlbumsCollection));
-                }
-
-                return _loadAlbumsCommand;
-            }
+            get; private set;
         }
 
         public abstract ICommand SetupAlbumsCommand
@@ -90,7 +82,7 @@ namespace WavePlayer.UI.ViewModels.Playlists
             get;
         }
 
-        protected ICollection<Album> AlbumsCollection { get; private set; }
+        protected ICollection<Album> AlbumsSource { get; private set; }
 
         public override void UpdateLocalization()
         {
@@ -100,9 +92,9 @@ namespace WavePlayer.UI.ViewModels.Playlists
 
         protected void SetupAlbums(ICollection<Album> albumsCollection, Album album)
         {
-            AlbumsCollection = albumsCollection;
+            AlbumsSource = albumsCollection;
 
-            Albums.Reset(AlbumsCollection);
+            Albums.Reset(AlbumsSource);
 
             var currentAlbum = album != null ? albumsCollection.FirstOrDefault(a => a.Id == album.Id && a.OwnerId == album.OwnerId && a.OwnerIsGroup == album.OwnerIsGroup) : albumsCollection.DefaultAlbum();
 
@@ -115,12 +107,12 @@ namespace WavePlayer.UI.ViewModels.Playlists
         {
             ResetAudios();
 
-            if (AlbumsCollection == null && Albums.Count == 0)
+            if (AlbumsSource == null && Albums.Count == 0)
             {
                 return;
             }
 
-            AlbumsCollection = null;
+            AlbumsSource = null;
 
             Albums.Reset(Enumerable.Empty<Album>());
 
@@ -153,30 +145,7 @@ namespace WavePlayer.UI.ViewModels.Playlists
 
         private Task SetupAudiosAsync(Album album)
         {
-            return Task.Factory.StartNew(() => SafeExecute(() => SetupAudios(album), () => SetupAudiosAsync(album)));
-        }
-
-        private Task LoadAlbumsAsync()
-        {
-            return Task.Factory.StartNew(LoadAlbums);
-        }
-
-        private void LoadAlbums()
-        {
-            SafeExecute(() =>
-            {
-                if (AlbumsCollection == null)
-                {
-                    return;
-                }
-
-                var count = AlbumsCollection.Count;
-
-                DataProvider.LoadCollection(AlbumsCollection);
-
-                Albums.AddRange(AlbumsCollection.Skip(count));
-            },
-            () => LoadAlbumsAsync());
+            return Async(() => SafeExecute(() => SetupAudios(album), () => SetupAudiosAsync(album)));
         }
     }
 }

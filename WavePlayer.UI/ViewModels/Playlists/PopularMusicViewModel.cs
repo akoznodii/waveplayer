@@ -15,7 +15,7 @@ using WavePlayer.UI.Threading;
 
 namespace WavePlayer.UI.ViewModels.Playlists
 {
-    public class PopularMusicViewModel : PlaylistViewModel
+    public class PopularMusicViewModel : MusicViewModelBase
     {
         private Genre _currentGenre;
         private bool _useFilter;
@@ -123,7 +123,7 @@ namespace WavePlayer.UI.ViewModels.Playlists
 
         private Task SetupAudiosAsync(Genre genre)
         {
-            return Task.Factory.StartNew(() => SafeExecute(() => SetupAudios(genre, UseFilter), () => SetupAudiosAsync(genre)));
+            return Async(() => SafeExecute(() => SetupAudios(genre, UseFilter), () => SetupAudiosAsync(genre)));
         }
 
         private void SetupAudios(Genre genre, bool useFilter)

@@ -11,7 +11,7 @@
              xmlns:controls="clr-namespace:WavePlayer.UI.Controls"
              mc:Ignorable="d"
              d:DesignHeight="640" d:DesignWidth="700"
-             d:DataContext="{Binding Path=PopularMusicViewModel, Source={StaticResource DesignTimeViewModelsLocator}}">
+             d:DataContext="{Binding Path=PopularMusicViewModelBase, Source={StaticResource DesignTimeViewModelsLocator}}">
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type Audios:Genre}">

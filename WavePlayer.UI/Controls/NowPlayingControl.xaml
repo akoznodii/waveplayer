@@ -9,7 +9,7 @@
              xmlns:controls="clr-namespace:WavePlayer.UI.Controls"
              mc:Ignorable="d"
              d:DesignHeight="640" d:DesignWidth="700"
-             d:DataContext="{Binding Path=NowPlayingViewModel, Source={StaticResource DesignTimeViewModelsLocator}}">
+             d:DataContext="{Binding Path=NowPlayingViewModelBase, Source={StaticResource DesignTimeViewModelsLocator}}">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

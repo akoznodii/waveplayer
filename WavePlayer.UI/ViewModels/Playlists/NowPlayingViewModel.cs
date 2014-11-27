@@ -10,7 +10,7 @@ using WavePlayer.UI.Properties;
 
 namespace WavePlayer.UI.ViewModels.Playlists
 {
-    public class NowPlayingViewModel : PlaylistViewModel
+    public class NowPlayingViewModel : MusicViewModelBase
     {
         private RelayCommand _setupAudiosCommand;
 

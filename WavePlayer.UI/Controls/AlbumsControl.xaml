@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WavePlayer.UI.Controls.MyMusicControl"
+﻿<UserControl x:Class="WavePlayer.UI.Controls.AlbumsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -49,7 +49,7 @@
                  SelectedItem="{Binding CurrentAlbum, Mode=OneWay}"
                  ItemsSource="{Binding Albums, Mode=OneWay}"
                  IsEnabled="{Binding IsLoading, Mode=OneWay, Converter={StaticResource OppositeBooleanConverter}}"
-                 behaviors:ListBoxBehavior.LoadItemsCommand="{Binding LoadAlbumsCommand}">
+                 behaviors:DeferredLoadBehavior.LoadItemsCommand="{Binding LoadAlbumsCommand}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged" SourceName="AlbumsListBox">
                     <i:InvokeCommandAction Command="{Binding SetupAudiosCommand}" CommandParameter="{Binding ElementName=AlbumsListBox, Path=SelectedValue, Mode=OneWay}"/>

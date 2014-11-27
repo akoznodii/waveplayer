@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using WavePlayer.Audios;
 using WavePlayer.Authorization;
 using WavePlayer.Media;
@@ -10,7 +9,7 @@ using WavePlayer.UI.Properties;
 
 namespace WavePlayer.UI.ViewModels.Playlists
 {
-    public class MyMusicViewModel : AlbumsViewModel
+    public class MyMusicViewModel : AlbumsViewModelBase
     {
         private readonly IAuthorizationService _authorizationService;
         

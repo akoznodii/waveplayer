@@ -13,6 +13,7 @@ using WavePlayer.UI.Properties;
 using WavePlayer.UI.Themes;
 using WavePlayer.UI.Threading;
 using WavePlayer.UI.ViewModels;
+using WavePlayer.UI.ViewModels.Playlists;
 
 namespace WavePlayer.UI
 {
@@ -84,7 +85,8 @@ namespace WavePlayer.UI
         private void SetupPages()
         {
             var mainViewModel = Container.GetInstance<MainViewModel>();
-            var instances = Container.GetAllInstances<PageViewModel>().Where(viewModel => !(viewModel is LyricsViewModel));
+            var instances = Container.GetAllInstances<PageViewModel>()
+                .Where(viewModel => !(viewModel is LyricsViewModel) && !(viewModel is GroupMusicViewModel) && !(viewModel is UserMusicViewModel));
 
             mainViewModel.Views = new List<PageViewModel>(instances);
         }

@@ -16,11 +16,11 @@ using WavePlayer.UI.Threading;
 
 namespace WavePlayer.UI.ViewModels.Playlists
 {
-    public abstract class PlaylistViewModel : PageViewModel
+    public abstract class MusicViewModelBase : PageViewModel
     {
         private RelayCommand<Audio> _playCommand;
 
-        protected PlaylistViewModel(IPlayer player, IVkDataProvider dataProvider, INavigationService navigationService, IDialogService dialogService)
+        protected MusicViewModelBase(IPlayer player, IVkDataProvider dataProvider, INavigationService navigationService, IDialogService dialogService)
             : base(navigationService, dialogService)
         {
             Player = player;
@@ -31,7 +31,7 @@ namespace WavePlayer.UI.ViewModels.Playlists
                 Audios = new CustomObservableCollection<Audio>();
             });
 
-            LoadAudiosCommand = new RelayCommand(() => ExecuteAsync(() => LoadCollection(Audios, AudiosSource)), () => CanLoadCollection(AudiosSource));
+            LoadAudiosCommand = new RelayCommand(() => Async(() => LoadCollection(DataProvider, Audios, AudiosSource)), () => CanLoadCollection(AudiosSource));
         }
 
         public string TracksCount
@@ -83,34 +83,6 @@ namespace WavePlayer.UI.ViewModels.Playlists
         {
             base.UpdateLocalization();
             RaisePropertyChanged("TracksCount");
-        }
-
-        protected bool CanLoadCollection<T>(ICollection<T> collection)
-        {
-            var remoteCollection = collection as RemoteCollection<T>;
-
-            return !IsLoading &&
-                   remoteCollection != null &&
-                   remoteCollection.TotalCount > remoteCollection.Count;
-        }
-
-        protected void LoadCollection<T>(CustomObservableCollection<T> viewCollection, ICollection<T> sourceCollection)
-        {
-            SafeExecute(() =>
-            {
-                if (sourceCollection == null) { return; }
-
-                var count = sourceCollection.Count;
-
-                DataProvider.LoadCollection(sourceCollection);
-
-                viewCollection.AddRange(sourceCollection.Skip(count));
-            });
-        }
-
-        protected static Task ExecuteAsync(Action action)
-        {
-            return Task.Factory.StartNew(action);
         }
 
         protected void SetupAudios(ICollection<Audio> audiosCollection)

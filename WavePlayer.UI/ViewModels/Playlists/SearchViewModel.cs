@@ -11,7 +11,7 @@ using WavePlayer.UI.Properties;
 
 namespace WavePlayer.UI.ViewModels.Playlists
 {
-    public class SearchViewModel : PlaylistViewModel, INavigatable
+    public class SearchViewModel : MusicViewModelBase, INavigatable
     {
         private string _query;
         private RelayCommand<string> _setupAudiosCommand;
@@ -70,28 +70,24 @@ namespace WavePlayer.UI.ViewModels.Playlists
 
         private Task SetupAudiosAsync(string query)
         {
-            return Task.Factory.StartNew(() => SetupAudios(query));
+            return Async(() => SafeExecute(() => SetupAudios(query), () => SetupAudiosAsync(query)));
         }
 
         private void SetupAudios(string query)
         {
-            SafeExecute(() =>
+            if (!string.Equals(Query, query, StringComparison.OrdinalIgnoreCase))
             {
-                if (!string.Equals(Query, query, StringComparison.OrdinalIgnoreCase))
-                {
-                    Query = query;
-                }
+                Query = query;
+            }
 
-                Audios.Clear();
+            Audios.Clear();
 
-                if (!string.IsNullOrEmpty(query))
-                {
-                    var searchCollection = DataProvider.GetSearchAudios(query);
+            if (!string.IsNullOrEmpty(query))
+            {
+                var searchCollection = DataProvider.GetSearchAudios(query);
 
-                    SetupAudios(searchCollection);
-                }
-            },
-            () => SetupAudiosAsync(query));
+                SetupAudios(searchCollection);
+            }
         }
     }
 }

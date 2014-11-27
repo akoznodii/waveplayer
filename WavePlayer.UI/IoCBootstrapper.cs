@@ -62,14 +62,27 @@ namespace WavePlayer.UI
                 typeof(RecommendedMusicViewModel),
                 typeof(SearchViewModel),
                 typeof(NowPlayingViewModel),
-                typeof(FriendsViewModel),
+                typeof(UsersViewModel),
                 typeof(GroupsViewModel),
-                typeof(LyricsViewModel)
+                typeof(LyricsViewModel),
+                typeof(GroupMusicViewModel),
+                typeof(UserMusicViewModel),
             };
-            
+
             container.RegisterAll(viewModels);
 
-            container.RegisterAll<PageViewModel>(typeof(MyMusicViewModel), typeof(FriendsViewModel), typeof(GroupsViewModel), typeof(RecommendedMusicViewModel), typeof(PopularMusicViewModel), typeof(SearchViewModel), typeof(NowPlayingViewModel), typeof(SettingsViewModel), typeof(LyricsViewModel));
+            container.RegisterAll<PageViewModel>(
+                typeof(MyMusicViewModel), 
+                typeof(UsersViewModel), 
+                typeof(GroupsViewModel), 
+                typeof(RecommendedMusicViewModel), 
+                typeof(PopularMusicViewModel), 
+                typeof(SearchViewModel), 
+                typeof(NowPlayingViewModel), 
+                typeof(SettingsViewModel), 
+                typeof(LyricsViewModel),
+                typeof(GroupMusicViewModel),
+                typeof(UserMusicViewModel));
 
             var localizables = new List<Type>(viewModels)
             {

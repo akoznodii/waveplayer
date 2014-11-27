@@ -99,7 +99,7 @@
         <ListBox x:Name="TracksListBox"
                  ItemContainerStyle="{StaticResource WaveplayTrackListBoxItem}"
                  ItemsSource="{Binding Audios, Mode=OneWay}"
-                 behaviors:ListBoxBehavior.LoadItemsCommand="{Binding LoadAudiosCommand}">
+                 behaviors:DeferredLoadBehavior.LoadItemsCommand="{Binding LoadAudiosCommand}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeftButtonUp" SourceName="TracksListBox">
                     <i:InvokeCommandAction Command="{Binding PlayCommand}" CommandParameter="{Binding ElementName=TracksListBox, Path=SelectedValue, Mode=OneWay}"/>

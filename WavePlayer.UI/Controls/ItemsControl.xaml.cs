@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WavePlayer.UI.Controls
 {
     /// <summary>
-    /// Interaction logic for GroupsControl.xaml
+    /// Interaction logic for ItemsControl.xaml
     /// </summary>
-    public partial class GroupsControl : UserControl
+    public partial class ItemsControl : UserControl
     {
-        public GroupsControl()
+        public ItemsControl()
         {
             InitializeComponent();
         }

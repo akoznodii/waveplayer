@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WavePlayer.Providers;
+using WavePlayer.Requests;
+using WavePlayer.UI.Collections;
 using WavePlayer.UI.Commands;
 using WavePlayer.UI.Dialogs;
 using WavePlayer.UI.Navigation;
@@ -23,7 +28,7 @@ namespace WavePlayer.UI.ViewModels
             DialogService = dialogService;
         }
 
-        public virtual string Title { get { return string.Empty; } }
+        public virtual string Title { get { return String.Empty; } }
 
         public bool IsLoading
         {
@@ -116,9 +121,37 @@ namespace WavePlayer.UI.ViewModels
         {
         }
 
+        protected static Task Async(Action action)
+        {
+            return Task.Factory.StartNew(action);
+        }
+
+        protected bool CanLoadCollection<T>(ICollection<T> collection)
+        {
+            var remoteCollection = collection as RemoteCollection<T>;
+
+            return !IsLoading &&
+                   remoteCollection != null &&
+                   remoteCollection.TotalCount > remoteCollection.Count;
+        }
+
+        protected void LoadCollection<T>(IVkDataProvider dataProvider, CustomObservableCollection<T> viewCollection, ICollection<T> sourceCollection)
+        {
+            SafeExecute(() =>
+            {
+                if (sourceCollection == null) { return; }
+
+                var count = sourceCollection.Count;
+
+                dataProvider.LoadCollection(sourceCollection);
+
+                viewCollection.AddRange(sourceCollection.Skip(count));
+            });
+        }
+
         private void ExecuteReloadAsync()
         {
-            Task.Factory.StartNew(ExecuteReload);
+            Async(ExecuteReload);
         }
 
         private void ExecuteReload()

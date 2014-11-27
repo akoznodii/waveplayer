@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -91,11 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\FriendsControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\GroupsControl.xaml">
+    <Page Include="Controls\ItemsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -107,7 +103,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MyMusicControl.xaml">
+    <Page Include="Controls\AlbumsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,17 +171,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Behaviors\ListBoxBehavior.cs" />
+    <Compile Include="Behaviors\HorizontalScrollBehavior.cs" />
+    <Compile Include="Behaviors\DeferredLoadBehavior.cs" />
     <Compile Include="Behaviors\WebBrowserBehavior.cs" />
     <Compile Include="Commands\CommandsContainer.cs" />
     <Compile Include="Commands\EventToCommand.cs" />
     <Compile Include="Collections\CustomObservableCollection.cs" />
     <Compile Include="Controls\ControlExtensions.cs" />
-    <Compile Include="Controls\FriendsControl.xaml.cs">
-      <DependentUpon>FriendsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\GroupsControl.xaml.cs">
-      <DependentUpon>GroupsControl.xaml</DependentUpon>
+    <Compile Include="Controls\ItemsControl.xaml.cs">
+      <DependentUpon>ItemsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\LyricsControl.xaml.cs">
       <DependentUpon>LyricsControl.xaml</DependentUpon>
@@ -193,8 +187,8 @@
     <Compile Include="Controls\MainControl.xaml.cs">
       <DependentUpon>MainControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MyMusicControl.xaml.cs">
-      <DependentUpon>MyMusicControl.xaml</DependentUpon>
+    <Compile Include="Controls\AlbumsControl.xaml.cs">
+      <DependentUpon>AlbumsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\NowPlayingControl.xaml.cs">
       <DependentUpon>NowPlayingControl.xaml</DependentUpon>
@@ -249,15 +243,18 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\LyricsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\Playlists\AlbumsViewModel.cs" />
-    <Compile Include="ViewModels\Playlists\FriendsViewModel.cs" />
+    <Compile Include="ViewModels\Playlists\AlbumsViewModelBase.cs" />
+    <Compile Include="ViewModels\Playlists\IItemsViewModel.cs" />
+    <Compile Include="ViewModels\Playlists\UsersViewModel.cs" />
+    <Compile Include="ViewModels\Playlists\GroupMusicViewModel.cs" />
     <Compile Include="ViewModels\Playlists\GroupsViewModel.cs" />
     <Compile Include="ViewModels\Playlists\MyMusicViewModel.cs" />
     <Compile Include="ViewModels\Playlists\NowPlayingViewModel.cs" />
-    <Compile Include="ViewModels\Playlists\PlaylistViewModel.cs" />
+    <Compile Include="ViewModels\Playlists\MusicViewModelBase.cs" />
     <Compile Include="ViewModels\Playlists\PopularMusicViewModel.cs" />
     <Compile Include="ViewModels\Playlists\RecommendedMusicViewModel.cs" />
     <Compile Include="ViewModels\Playlists\SearchViewModel.cs" />
+    <Compile Include="ViewModels\Playlists\UserMusicViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\PageViewModel.cs" />
     <Compile Include="ViewModels\WelcomeViewModel.cs" />

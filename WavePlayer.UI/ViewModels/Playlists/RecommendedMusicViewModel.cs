@@ -10,7 +10,7 @@ using WavePlayer.UI.Properties;
 
 namespace WavePlayer.UI.ViewModels.Playlists
 {
-    public class RecommendedMusicViewModel : PlaylistViewModel
+    public class RecommendedMusicViewModel : MusicViewModelBase
     {
         private readonly IAuthorizationService _authorizationService;
         private RelayCommand _setupAudiosCommand;
@@ -41,25 +41,21 @@ namespace WavePlayer.UI.ViewModels.Playlists
 
         private Task SetupAudiosAsync()
         {
-            return Task.Factory.StartNew(SetupAudios);
+            return Async(() => SafeExecute(SetupAudios, () => SetupAudiosAsync()));
         }
 
         private void SetupAudios()
         {
-            SafeExecute(() =>
+            var user = _authorizationService.CurrentUser;
+
+            if (user == null)
             {
-                var user = _authorizationService.CurrentUser;
+                return;
+            }
 
-                if (user == null)
-                {
-                    return;
-                }
+            var audiosCollection = DataProvider.GetRecommendedAudios(user, false);
 
-                var audiosCollection = DataProvider.GetRecommendedAudios(user, false);
-
-                SetupAudios(audiosCollection);
-            },
-            () => SetupAudiosAsync());
+            SetupAudios(audiosCollection);
         }
     }
 }

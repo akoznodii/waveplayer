@@ -102,28 +102,16 @@ namespace WavePlayer.UI.DesignTime
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "WPF requires property")]
-        public FriendsViewModel FriendsViewModel
+        public UsersViewModel UsersViewModel
         {
             get
             {
                 EnsureInitialized();
 
-                var viewModel = Container.GetInstance<FriendsViewModel>();
+                var viewModel = Container.GetInstance<UsersViewModel>();
 
-                viewModel.SetupUsersCommand.Execute(null);
-
-                System.Threading.Thread.Sleep(100);
-
-                var user = viewModel.Users.First();
-
-                viewModel.SetupAlbumsCommand.Execute(user);
-
-                System.Threading.Thread.Sleep(100);
-
-                var album = viewModel.Albums.First();
-
-                viewModel.SetupAudiosCommand.Execute(album);
-
+                viewModel.ReloadCommand.Execute(null);
+                
                 return viewModel;
             }
         }
@@ -137,19 +125,7 @@ namespace WavePlayer.UI.DesignTime
 
                 var viewModel = Container.GetInstance<GroupsViewModel>();
 
-                viewModel.SetupGroupsCommand.Execute(null);
-
-                System.Threading.Thread.Sleep(100);
-
-                var group = viewModel.Groups.First();
-
-                viewModel.SetupAlbumsCommand.Execute(group);
-
-                System.Threading.Thread.Sleep(100);
-
-                var album = viewModel.Albums.First();
-
-                viewModel.SetupAudiosCommand.Execute(album);
+                viewModel.ReloadCommand.Execute(null);
 
                 return viewModel;
             }
@@ -177,7 +153,7 @@ namespace WavePlayer.UI.DesignTime
 
                 var viewModel = Container.GetInstance<MainViewModel>();
 
-                var page = viewModel.Views.OfType<FriendsViewModel>().First();
+                var page = viewModel.Views.OfType<UsersViewModel>().First();
 
                 viewModel.SelectView = page;
 

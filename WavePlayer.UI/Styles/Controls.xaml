@@ -214,6 +214,7 @@
 
     <Style x:Key="WaveplayListBoxStyle" TargetType="{x:Type ListBox}" BasedOn="{StaticResource VirtualisedMetroListBox}">
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
         <Setter Property="Grid.IsSharedSizeScope" Value="True"/>
     </Style>
     

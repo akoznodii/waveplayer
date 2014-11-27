@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WavePlayer.Authorization;
-using WavePlayer.Groups;
 using WavePlayer.Providers;
 using WavePlayer.UI.Collections;
 using WavePlayer.UI.Commands;
@@ -13,31 +12,32 @@ using WavePlayer.UI.Dialogs;
 using WavePlayer.UI.Navigation;
 using WavePlayer.UI.Properties;
 using WavePlayer.UI.Threading;
+using WavePlayer.Users;
 
 namespace WavePlayer.UI.ViewModels.Playlists
 {
-    public class GroupsViewModel : PageViewModel, IItemsViewModel<Group>
+    public class UsersViewModel : PageViewModel, IItemsViewModel<User>
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly IVkDataProvider _dataProvider;
-        private readonly GroupMusicViewModel _groupMusicViewModel;
-        private RelayCommand _setupGroupsCommand;
-        private RelayCommand<Group> _selectUserCommand;
-        private ICollection<Group> _groupsCollection;
-        
-        public GroupsViewModel(GroupMusicViewModel groupMusicViewModel, IAuthorizationService authorizationService, IVkDataProvider dataProvider, IDialogService dialogService, INavigationService navigationService)
+        private readonly UserMusicViewModel _userMusicViewModel;
+        private RelayCommand _setupUsersCommand;
+        private RelayCommand<User> _selectUserCommand;
+        private ICollection<User> _usersCollection;
+
+        public UsersViewModel(UserMusicViewModel userMusicViewModel, IAuthorizationService authorizationService, IVkDataProvider dataProvider, IDialogService dialogService, INavigationService navigationService)
             : base(navigationService, dialogService)
         {
-            _groupMusicViewModel = groupMusicViewModel;
+            _userMusicViewModel = userMusicViewModel;
             _authorizationService = authorizationService;
             _dataProvider = dataProvider;
 
             DispatcherHelper.InvokeOnUI(() =>
             {
-                Items = new CustomObservableCollection<Group>();
+                Items = new CustomObservableCollection<User>();
             });
 
-            LoadItemsCommand = new RelayCommand(() => Async(() => LoadCollection(_dataProvider, Items, _groupsCollection)), () => CanLoadCollection(_groupsCollection));
+            LoadItemsCommand = new RelayCommand(() => Async(() => LoadCollection(_dataProvider, Items, _usersCollection)), () => CanLoadCollection(_usersCollection));
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Localizable resource string")]
@@ -45,16 +45,16 @@ namespace WavePlayer.UI.ViewModels.Playlists
         {
             get
             {
-                return Resources.GroupsCount;
+                return Resources.UsersCount;
             }
         }
 
         public override string Title
         {
-            get { return Resources.MyGroups; }
+            get { return Resources.MyFriends; }
         }
 
-        public CustomObservableCollection<Group> Items
+        public CustomObservableCollection<User> Items
         {
             get;
             private set;
@@ -64,12 +64,12 @@ namespace WavePlayer.UI.ViewModels.Playlists
         {
             get
             {
-                if (_setupGroupsCommand == null)
+                if (_setupUsersCommand == null)
                 {
-                    _setupGroupsCommand = new RelayCommand(() => SetupGroupsAsync(), () => !IsLoading);
+                    _setupUsersCommand = new RelayCommand(() => SetupUsersAsync(), () => !IsLoading);
                 }
 
-                return _setupGroupsCommand;
+                return _setupUsersCommand;
             }
         }
 
@@ -79,7 +79,7 @@ namespace WavePlayer.UI.ViewModels.Playlists
             {
                 if (_selectUserCommand == null)
                 {
-                    _selectUserCommand = new RelayCommand<Group>((group) => SelectGroupAsync(group));
+                    _selectUserCommand = new RelayCommand<User>((user) => SelectUserAsync(user));
                 }
 
                 return _selectUserCommand;
@@ -101,59 +101,59 @@ namespace WavePlayer.UI.ViewModels.Playlists
         {
             base.Reload();
 
-            ResetGroups();
+            ResetUsers();
 
-            SetupGroups();
+            SetupUsers();
         }
 
-        private Task SetupGroupsAsync()
+        private Task SetupUsersAsync()
         {
-            return Async(() => SafeExecute(SetupGroups, () => SetupGroupsAsync()));
+            return Async(() => SafeExecute(SetupUsers, () => SetupUsersAsync()));
         }
 
-        private void SetupGroups()
+        private void SetupUsers()
         {
-            ResetGroups();
+            ResetUsers();
 
             var user = _authorizationService.CurrentUser;
 
-            _groupsCollection = _dataProvider.GetUserGroups(user);
+            _usersCollection = _dataProvider.GetUserFriends(user);
 
-            Items.Reset(_groupsCollection);
+            Items.Reset(_usersCollection);
         }
 
-        private void ResetGroups()
+        private void ResetUsers()
         {
-            if (_groupsCollection == null && Items.Count == 0)
+            if (_usersCollection == null && Items.Count == 0)
             {
                 return;
             }
 
-            _groupsCollection = null;
+            _usersCollection = null;
 
-            Items.Reset(Enumerable.Empty<Group>());
+            Items.Reset(Enumerable.Empty<User>());
         }
 
-        private Task SelectGroupAsync(Group group)
+        private Task SelectUserAsync(User user)
         {
-            return Async(() => SafeExecute(() => SelectGroup(group), () => SelectGroupAsync(group)));
+            return Async(() => SafeExecute(() => SelectUser(user), () => SelectUserAsync(user)));
         }
 
-        private void SelectGroup(Group group)
+        private void SelectUser(User user)
         {
-            if (group == null)
+            if (user == null)
             {
                 return;
             }
 
-            while (_groupMusicViewModel.IsLoading)
+            while (_userMusicViewModel.IsLoading)
             {
                 Thread.Sleep(100);
             }
 
-            _groupMusicViewModel.LoadGroupAlbums(group);
+            _userMusicViewModel.LoadUserAlbums(user);
 
-            NavigationService.Navigate(_groupMusicViewModel, null);
+            NavigationService.Navigate(_userMusicViewModel, null);
         }
     }
 }

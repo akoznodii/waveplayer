@@ -1,18 +1,20 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
-using ListBox = System.Windows.Controls.ListBox;
 
 namespace WavePlayer.UI.Behaviors
 {
-    public static class ListBoxBehavior
+    public static class DeferredLoadBehavior
     {
         public static readonly DependencyProperty LoadItemsCommandProperty = DependencyProperty.RegisterAttached("LoadItemsCommand",
             typeof(ICommand),
-            typeof(ListBoxBehavior),
+            typeof(DeferredLoadBehavior),
             new UIPropertyMetadata(default(ICommand), LoadItemsCommandPropertyChanged));
+
+        public static readonly DependencyProperty ScrollOrientationProperty = DependencyProperty.RegisterAttached("ScrollOrientation",
+            typeof(Orientation),
+            typeof(DeferredLoadBehavior),
+            new UIPropertyMetadata(Orientation.Vertical));
 
         public static ICommand GetLoadItemsCommand(DependencyObject obj)
         {
@@ -22,6 +24,16 @@ namespace WavePlayer.UI.Behaviors
         public static void SetLoadItemsCommand(DependencyObject obj, ICommand value)
         {
             obj.SetValue(LoadItemsCommandProperty, value);
+        }
+
+        public static Orientation GetScrollOrientation(DependencyObject obj)
+        {
+            return (Orientation)obj.GetValue(ScrollOrientationProperty);
+        }
+
+        public static void SetScrollOrientation(DependencyObject obj, Orientation value)
+        {
+            obj.SetValue(ScrollOrientationProperty, value);
         }
 
         private static void LoadItemsCommandPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
@@ -55,15 +67,21 @@ namespace WavePlayer.UI.Behaviors
                 return;
             }
 
-            if (e.VerticalChange <= 0 || 
-                e.VerticalOffset + e.ViewportHeight < e.ExtentHeight)
+            var orientation = GetScrollOrientation(listBox);
+
+            if ((orientation == Orientation.Vertical && (
+                e.VerticalChange <= 0 ||
+                e.VerticalOffset + e.ViewportHeight < e.ExtentHeight)) ||
+                (orientation == Orientation.Horizontal && (
+                e.HorizontalChange <= 0 ||
+                e.HorizontalOffset + e.ViewportWidth < e.ExtentWidth)))
             {
                 return;
-            }           
-            
+            }
+
             var command = GetLoadItemsCommand(listBox);
 
-            if (command == null || 
+            if (command == null ||
                 !command.CanExecute(null))
             {
                 return;
