@@ -152,8 +152,6 @@ namespace WavePlayer.UI.ViewModels.Playlists
             }
 
             _userMusicViewModel.LoadUserAlbums(user);
-
-            NavigationService.Navigate(_userMusicViewModel, null);
         }
     }
 }

@@ -3,17 +3,18 @@ using WavePlayer.Audios;
 using WavePlayer.Groups;
 using WavePlayer.Media;
 using WavePlayer.Providers;
+using WavePlayer.UI.Commands;
 using WavePlayer.UI.Dialogs;
 using WavePlayer.UI.Navigation;
 using WavePlayer.UI.Properties;
 
 namespace WavePlayer.UI.ViewModels.Playlists
 {
-    public class GroupMusicViewModel : AlbumsViewModelBase
+    public class GroupMusicViewModel : AlbumsViewModelBase, INavigatable
     {
         private string _title;
         private Group _currentGroup;
-        
+
         public GroupMusicViewModel(IPlayer player, IVkDataProvider dataProvider, IDialogService dialogService, INavigationService navigationService)
             : base(player, dataProvider, dialogService, navigationService)
         {
@@ -40,8 +41,19 @@ namespace WavePlayer.UI.ViewModels.Playlists
         public void LoadGroupAlbums(Group group)
         {
             LoadGroupAlbums(group, null);
+
+            NavigationService.Navigate(this, group);
         }
-        
+
+        public void OnNavigated(object parameter)
+        {
+            var group = parameter as Group;
+
+            if (group == null || _currentGroup == group) { return; }
+
+            SetupAlbumsAsync(group);
+        }
+
         protected override void Reload()
         {
             base.Reload();
@@ -52,11 +64,16 @@ namespace WavePlayer.UI.ViewModels.Playlists
             LoadGroupAlbums(currentGroup, album);
         }
 
-        private void LoadGroupAlbums(Group user, Album album)
+        private void SetupAlbumsAsync(Group group)
+        {
+            Async(() => SafeExecute(() => LoadGroupAlbums(group, null), () => SetupAlbumsAsync(group)));
+        }
+
+        private void LoadGroupAlbums(Group group, Album album)
         {
             ResetAlbums();
 
-            _currentGroup = user;
+            _currentGroup = group;
 
             if (_currentGroup == null)
             {

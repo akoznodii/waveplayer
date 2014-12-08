@@ -9,7 +9,7 @@ using WavePlayer.Users;
 
 namespace WavePlayer.UI.ViewModels.Playlists
 {
-    public class UserMusicViewModel : AlbumsViewModelBase
+    public class UserMusicViewModel : AlbumsViewModelBase, INavigatable
     {
         private string _title;
         private User _currentUser;
@@ -40,6 +40,17 @@ namespace WavePlayer.UI.ViewModels.Playlists
         public void LoadUserAlbums(User user)
         {
             LoadUserAlbums(user, null);
+
+            NavigationService.Navigate(this, user);
+        }
+
+        public void OnNavigated(object parameter)
+        {
+            var user = parameter as User;
+
+            if (user == null || _currentUser == user) { return; }
+
+            SetupAlbumsAsync(user);
         }
 
         protected override void Reload()
@@ -50,6 +61,11 @@ namespace WavePlayer.UI.ViewModels.Playlists
             var currentUser = _currentUser;
 
             LoadUserAlbums(currentUser, album);
+        }
+
+        private void SetupAlbumsAsync(User user)
+        {
+            Async(() => SafeExecute(() => LoadUserAlbums(user, null), () => SetupAlbumsAsync(user)));
         }
 
         private void LoadUserAlbums(User user, Album album)
