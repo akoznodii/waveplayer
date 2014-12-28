@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -61,9 +62,9 @@
     <Compile Include="Audios\Album.cs" />
     <Compile Include="Audios\Audio.cs" />
     <Compile Include="Audios\Lyrics.cs" />
+    <Compile Include="Caching\GenericCache.cs" />
     <Compile Include="Media\IPlayer.cs" />
     <Compile Include="Media\Tracklist.cs" />
-    <Compile Include="Caching\Cache.cs" />
     <Compile Include="Audios\AudioEventArgs.cs" />
     <Compile Include="Providers\IVkDataProvider.cs" />
     <Compile Include="Providers\ModelExtensions.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Requests\PopularAudiosRequest.cs" />
     <Compile Include="Requests\RecommendedAudiosRequest.cs" />
     <Compile Include="Requests\RequestBase.cs" />
+    <Compile Include="Requests\RequestHelper.cs" />
     <Compile Include="Requests\SearchAudiosRequest.cs" />
     <Compile Include="Requests\OwnerAlbumsRequest.cs" />
     <Compile Include="Requests\UserFriendsRequest.cs" />

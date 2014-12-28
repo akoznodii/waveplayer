@@ -18,18 +18,17 @@ using Lyrics = WavePlayer.Audios.Lyrics;
 
 namespace WavePlayer.Providers
 {
-    public class VkDataProvider : IVkDataProvider
+    public sealed class VkDataProvider : IVkDataProvider, IDisposable
     {
-        private const int CachedSize = 5;
         private const int LoadItemsCount = 50;
+        private static readonly TimeSpan ItemsLifetime = TimeSpan.FromMinutes(5);
 
         private readonly VkClient _vkClient;
-
-        private readonly Cache<RemoteCollection<Audio>> _audiosCache = new Cache<RemoteCollection<Audio>>(CachedSize, (audio) => audio.Any(i => i.IsPlayingNow));
-        private readonly Cache<RemoteCollection<Album>> _albumsCache = new Cache<RemoteCollection<Album>>(CachedSize);
-        private readonly Cache<RemoteCollection<User>> _usersCache = new Cache<RemoteCollection<User>>(CachedSize);
-        private readonly Cache<RemoteCollection<Group>> _groupsCache = new Cache<RemoteCollection<Group>>(CachedSize);
-        private readonly Cache<Lyrics> _lyricsCache = new Cache<Lyrics>(CachedSize);
+        private readonly GenericCache<RemoteCollection<Audio>> _audiosCache;
+        private readonly GenericCache<RemoteCollection<Album>> _albumsCache;
+        private readonly GenericCache<RemoteCollection<User>> _usersCache;
+        private readonly GenericCache<RemoteCollection<Group>> _groupsCache;
+        private readonly GenericCache<Lyrics> _lyricsCache;
         private readonly Lazy<ICollection<Genre>> _genres = new Lazy<ICollection<Genre>>(LoadGenres, true);
 
         public event EventHandler<AudioEventArgs> AudioAdded;
@@ -39,6 +38,31 @@ namespace WavePlayer.Providers
         public VkDataProvider(VkClient vkClient)
         {
             _vkClient = vkClient;
+
+            _audiosCache = new GenericCache<RemoteCollection<Audio>>("audios", (audio) => audio.Any(i => i.IsPlayingNow))
+            {
+                SlidingExpiration = ItemsLifetime
+            };
+
+            _albumsCache = new GenericCache<RemoteCollection<Album>>("albums")
+            {
+                SlidingExpiration = ItemsLifetime
+            };
+
+            _usersCache = new GenericCache<RemoteCollection<User>>("users")
+            {
+                SlidingExpiration = ItemsLifetime
+            };
+
+            _groupsCache = new GenericCache<RemoteCollection<Group>>("groups")
+            {
+                SlidingExpiration = ItemsLifetime
+            };
+
+            _lyricsCache = new GenericCache<Lyrics>("lyrics")
+            {
+                SlidingExpiration = ItemsLifetime
+            };
         }
 
         public ICollection<Genre> GetGenres()
@@ -53,7 +77,9 @@ namespace WavePlayer.Providers
                 throw new ArgumentNullException("user");
             }
 
-            return GetCollection(_usersCache, (request) => request.UserId == user.Id, () => new UserFriendsRequest { UserId = user.Id });
+            var key = RequestHelper.CreateUserFriendsRequestKey(user.Id);
+
+            return GetCollection(_usersCache, key, () => new UserFriendsRequest { UserId = user.Id });
         }
 
         public ICollection<Group> GetUserGroups(User user)
@@ -63,7 +89,9 @@ namespace WavePlayer.Providers
                 throw new ArgumentNullException("user");
             }
 
-            return GetCollection(_groupsCache, (request) => request.UserId == user.Id, () => new UserGroupsRequest { UserId = user.Id });
+            var key = RequestHelper.CreateUserGroupsRequestKey(user.Id);
+
+            return GetCollection(_groupsCache, key, () => new UserGroupsRequest { UserId = user.Id });
         }
 
         public ICollection<Album> GetUserAlbums(User user)
@@ -73,7 +101,9 @@ namespace WavePlayer.Providers
                 throw new ArgumentNullException("user");
             }
 
-            return GetCollection(_albumsCache, (request) => request.OwnerId == user.Id && !request.OwnerIsGroup, () => new OwnerAlbumsRequest() { OwnerId = user.Id, OwnerIsGroup = false });
+            var key = RequestHelper.CreateOwnerAlbumsRequestKey(user.Id, false);
+
+            return GetCollection(_albumsCache, key, () => new OwnerAlbumsRequest() { OwnerId = user.Id, OwnerIsGroup = false });
         }
 
         public ICollection<Album> GetGroupAlbums(Group group)
@@ -83,7 +113,9 @@ namespace WavePlayer.Providers
                 throw new ArgumentNullException("group");
             }
 
-            return GetCollection(_albumsCache, (request) => request.OwnerId == group.Id && request.OwnerIsGroup, () => new OwnerAlbumsRequest() { OwnerId = group.Id, OwnerIsGroup = true });
+            var key = RequestHelper.CreateOwnerAlbumsRequestKey(group.Id, true);
+
+            return GetCollection(_albumsCache, key, () => new OwnerAlbumsRequest() { OwnerId = group.Id, OwnerIsGroup = true });
         }
 
         public ICollection<Audio> GetAlbumAudios(Album album)
@@ -93,7 +125,9 @@ namespace WavePlayer.Providers
                 throw new ArgumentNullException("album");
             }
 
-            return GetCollection(_audiosCache, request => request.OwnerId == album.OwnerId && request.AlbumId == album.Id && request.OwnerIsGroup == album.OwnerIsGroup, album.ToRequest);
+            var key = RequestHelper.CreateAlbumAudiosRequestKey(album.Id, album.OwnerId, album.OwnerIsGroup);
+
+            return GetCollection(_audiosCache, key, album.ToRequest);
         }
 
         public ICollection<Audio> GetPopularAudios(Genre genre, bool onlyForeign)
@@ -103,7 +137,9 @@ namespace WavePlayer.Providers
                 throw new ArgumentNullException("genre");
             }
 
-            return GetCollection(_audiosCache, request => request.GenreId == genre.Id && request.OnlyForeign == onlyForeign, () => new PopularAudiosRequest() { GenreId = genre.Id, OnlyForeign = onlyForeign });
+            var key = RequestHelper.CreatePopularAudiosRequestKey(genre.Id, onlyForeign);
+
+            return GetCollection(_audiosCache, key, () => new PopularAudiosRequest() { GenreId = genre.Id, OnlyForeign = onlyForeign });
         }
 
         public ICollection<Audio> GetRecommendedAudios(User user, bool shuffle)
@@ -113,7 +149,9 @@ namespace WavePlayer.Providers
                 throw new ArgumentNullException("user");
             }
 
-            return GetCollection(_audiosCache, request => request.UserId == user.Id && request.Shuffle == shuffle, () => new RecommendedAudiosRequest() { UserId = user.Id, Shuffle = shuffle });
+            var key = RequestHelper.CreateRecommendedAudiosRequestKey(user.Id, shuffle);
+
+            return GetCollection(_audiosCache, key, () => new RecommendedAudiosRequest() { UserId = user.Id, Shuffle = shuffle });
         }
 
         public ICollection<Audio> GetSearchAudios(string query)
@@ -123,7 +161,9 @@ namespace WavePlayer.Providers
                 throw new ArgumentNullException("query");
             }
 
-            return GetCollection(_audiosCache, request => request.Query.Equals(query, StringComparison.OrdinalIgnoreCase), () => new SearchAudiosRequest() { Query = query });
+            var key = RequestHelper.CreateSearchAudiosRequestKey(query);
+
+            return GetCollection(_audiosCache, key, () => new SearchAudiosRequest() { Query = query });
         }
 
         public Lyrics GetLyrics(Audio audio)
@@ -142,7 +182,7 @@ namespace WavePlayer.Providers
             var title = audio.Title;
             var artist = audio.Artist;
 
-            return _lyricsCache.GetItem((lyrics => lyrics.Id == lyricsId), () =>
+            return _lyricsCache.GetOrAdd(lyricsId.ToString(CultureInfo.InvariantCulture), () =>
             {
                 var lyrics = _vkClient.Audios.GetLyrics(audio.LyricsId);
 
@@ -197,7 +237,9 @@ namespace WavePlayer.Providers
                 throw new InvalidOperationException("Cannot remove specified audio");
             }
 
-            var collection = FindCollection<Audio, AlbumAudiosRequest>(_audiosCache, request => request.OwnerId == userId && !request.OwnerIsGroup && request.AlbumId == Album.AllMusicAlbumId);
+            var key = RequestHelper.CreateAlbumAudiosRequestKey(Album.AllMusicAlbumId, userId, false);
+
+            var collection = _audiosCache.Get(key);
 
             var result = _vkClient.Audios.Remove(audio.Id, audio.OwnerId, audio.OwnerIsGroup ? OwnerType.Group : OwnerType.User);
 
@@ -223,7 +265,9 @@ namespace WavePlayer.Providers
                 throw new InvalidOperationException("Audio was not specified");
             }
 
-            var collection = FindCollection<Audio, AlbumAudiosRequest>(_audiosCache, request => request.OwnerId == userId && !request.OwnerIsGroup && request.AlbumId == Album.AllMusicAlbumId);
+            var key = RequestHelper.CreateAlbumAudiosRequestKey(Album.AllMusicAlbumId, userId, false);
+
+            var collection = _audiosCache.Get(key);
 
             var result = _vkClient.Audios.Add(audio.Id, audio.OwnerId, audio.OwnerIsGroup ? OwnerType.Group : OwnerType.User);
 
@@ -237,7 +281,7 @@ namespace WavePlayer.Providers
             newAudio.IsPlayingNow = false;
             newAudio.OwnerId = userId;
             newAudio.OwnerIsGroup = false;
-            
+
             if (collection != null)
             {
                 collection.Insert(0, newAudio);
@@ -250,11 +294,19 @@ namespace WavePlayer.Providers
 
         public void Clear()
         {
-            _audiosCache.Clear();
-            _albumsCache.Clear();
-            _usersCache.Clear();
-            _groupsCache.Clear();
-            _lyricsCache.Clear();
+            _audiosCache.Clean();
+            _albumsCache.Clean();
+            _usersCache.Clean();
+            _groupsCache.Clean();
+            _lyricsCache.Clean();
+        }
+
+        public void Dispose()
+        {
+            if (_audiosCache != null)
+            {
+                _audiosCache.Dispose();
+            }
         }
 
         public void UpdateLocalization()
@@ -285,7 +337,7 @@ namespace WavePlayer.Providers
             handler(this, new AudioEventArgs { Audio = audio });
         }
 
-        private static void LoadCollection<TModel, TVkModel>(Cache<RemoteCollection<TModel>> cache, RemoteCollection<TModel> collection, Func<RequestBase, VkCollection<TVkModel>> loadFunc, Func<TVkModel, TModel> convertFunc)
+        private static void LoadCollection<TModel, TVkModel>(GenericCache<RemoteCollection<TModel>> cache, RemoteCollection<TModel> collection, Func<RequestBase, VkCollection<TVkModel>> loadFunc, Func<TVkModel, TModel> convertFunc)
         {
             var request = collection.Request;
 
@@ -302,13 +354,14 @@ namespace WavePlayer.Providers
 
             collection.AddRange(vkCollection.Select(convertFunc));
 
-            cache.SetItem(collection);
+            var key = collection.Request.CreateKey();
+
+            cache.Set(key, collection);
         }
 
-        private RemoteCollection<TItem> GetCollection<TItem, TRequestBase>(Cache<RemoteCollection<TItem>> itemCache, Func<TRequestBase, bool> predicate, Func<TRequestBase> createFunc) where TRequestBase : RequestBase
+        private RemoteCollection<TItem> GetCollection<TItem, TRequestBase>(GenericCache<RemoteCollection<TItem>> cache, string key, Func<TRequestBase> createFunc) where TRequestBase : RequestBase
         {
-            var collection = itemCache.GetItem((item) => item.Request is TRequestBase && predicate((TRequestBase)item.Request),
-                                     () => new RemoteCollection<TItem>() { Request = createFunc() });
+            var collection = cache.GetOrAdd(key, () => new RemoteCollection<TItem>() { Request = createFunc() });
 
             if (!collection.Loaded)
             {
@@ -316,11 +369,6 @@ namespace WavePlayer.Providers
             }
 
             return collection;
-        }
-
-        private static RemoteCollection<TItem> FindCollection<TItem, TRequestBase>(Cache<RemoteCollection<TItem>> itemCache, Func<TRequestBase, bool> predicate) where TRequestBase : RequestBase
-        {
-            return itemCache.Items.FirstOrDefault((item) => item.Request is TRequestBase && predicate((TRequestBase)item.Request));
         }
 
         private VkCollection<VK.Audios.Audio> LoadAudios(RequestBase request)
