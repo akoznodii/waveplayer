@@ -84,7 +84,7 @@
             </Grid.RowDefinitions>
 
             <Rectangle Grid.Column="0" Grid.Row="0"
-                   Fill="{DynamicResource HighlightBrush}" OpacityMask="{StaticResource waveplay_logo_brush}" Margin="5,2,0,2" Height="27" VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"/>
+                   Fill="{DynamicResource HighlightBrush}" OpacityMask="{StaticResource waveplay_logo_brush}" Margin="5,2,0,2" Height="21" VerticalAlignment="Center" HorizontalAlignment="Center" Width="35"/>
 
             <TextBlock Grid.Column="1"
                    Grid.Row="0"

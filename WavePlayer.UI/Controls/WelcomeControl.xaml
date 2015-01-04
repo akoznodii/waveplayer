@@ -56,7 +56,7 @@
         </Grid.ColumnDefinitions>
 
         <Rectangle Grid.Column="1" Grid.Row="0"
-                   Fill="{DynamicResource HighlightBrush}" OpacityMask="{StaticResource waveplay_logo_brush}" Margin="0,0,0,80" Height="180" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="200"/>
+                   Fill="{DynamicResource AccentColorBrush}" OpacityMask="{StaticResource waveplay_logo_brush}" Margin="0,0,0,80" Height="140" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="230"/>
        
         <TextBlock Grid.Column="1"
                    Grid.Row="0"
