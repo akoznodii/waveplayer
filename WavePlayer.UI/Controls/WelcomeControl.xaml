@@ -6,6 +6,7 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:ViewModels="clr-namespace:WavePlayer.UI.ViewModels"
              mc:Ignorable="d" 
+             Background="{DynamicResource WhiteBrush}"
              d:DesignHeight="640" d:DesignWidth="900"         
              d:DataContext="{Binding Path=WelcomeViewModel, Source={StaticResource DesignTimeViewModelsLocator}}">
 
@@ -17,13 +18,13 @@
 
             <DataTemplate DataType="{x:Type ViewModels:LoginViewModel}">
                 <Grid>
-                    <Button Margin="0,0,0,40" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource WaveplayButton}" Click="LoginButtonClick">
+                    <Button VerticalAlignment="Center" HorizontalAlignment="Center" Style="{DynamicResource WaveplayButton}" Click="LoginButtonClick" Margin="0,160,0,0">
                         <TextBlock Text="{Binding SignInString, Mode=OneWay}" Style="{DynamicResource WaveplayButtonTextBlock}"/>
                     </Button>
 
-                    <Button Height="30" Padding="25,5,25,5" Margin="0,40,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                    <Button Height="30" Padding="25,5,25,5" VerticalAlignment="Center" HorizontalAlignment="Center" 
                             Command="{Binding SignupCommand,Mode=OneWay}"
-                            Style="{DynamicResource WaveplayLinkButton}">
+                            Style="{DynamicResource WaveplayLinkButton}" Margin="0,240,0,0">
                         <TextBlock Text="{Binding SignupString, Mode=OneWay}" Style="{DynamicResource WaveplayButtonTextBlock}"/>
                     </Button>
                 </Grid>
@@ -31,14 +32,15 @@
 
             <DataTemplate DataType="{x:Type ViewModels:LoadInfoViewModel}">
                 <Grid>
-                    <TextBlock VerticalAlignment="Center"
+                    <TextBlock x:Name="InfoTextBlock"
+                               VerticalAlignment="Center"
                                HorizontalAlignment="Center"
-                               Margin="0,80,0,0"
+                               Margin="0,140,0,0"
                                FontWeight="Light"
                                FontSize="18"
                                Foreground="{DynamicResource GrayBrush2}"
                                Text="{Binding LoadAccountString, Mode=OneWay}"/>
-                    <controls:MetroProgressBar Margin="0,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Foreground="{DynamicResource AccentColorBrush}" IsIndeterminate="True"/>
+                    <controls:MetroProgressBar Margin="0,180,0,0" MaxWidth="250" VerticalAlignment="Center" HorizontalAlignment="Stretch" Foreground="{DynamicResource AccentColorBrush}" IsIndeterminate="True"/>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
@@ -46,41 +48,42 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.6*"/>
-            <RowDefinition Height="0.3*"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25*"/>
-            <ColumnDefinition Width="50*"/>
-            <ColumnDefinition Width="25*"/>
+            <ColumnDefinition Width="0.05*"/>
+            <ColumnDefinition Width="0.50*"/>
+            <ColumnDefinition Width="0.05*"/>
         </Grid.ColumnDefinitions>
 
         <Rectangle Grid.Column="1" Grid.Row="0"
-                   Fill="{DynamicResource AccentColorBrush}" OpacityMask="{StaticResource waveplay_logo_brush}" Margin="0,0,0,80" Height="140" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="230"/>
-       
+                   Fill="{DynamicResource AccentColorBrush}" OpacityMask="{StaticResource waveplay_logo_brush}" Margin="0,0,0,160" Height="75" VerticalAlignment="Center" HorizontalAlignment="Center" Width="120"/>
+
         <TextBlock Grid.Column="1"
                    Grid.Row="0"
                    FontWeight="Light"
                    FontSize="25"
                    Foreground="{DynamicResource GrayBrush1}"
-                   Text="{Binding ProductNameString, Mode=OneWay}" Margin="0,0,0,270" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                   Text="{Binding ProductNameString, Mode=OneWay}" Margin="0,0,0,30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         <TextBlock Grid.Column="1"
                    Grid.Row="0"
                    FontWeight="Light"
                    FontSize="18"
                    Foreground="{DynamicResource GrayBrush1}"
-                   Text="{Binding ProductSloganString, Mode=OneWay}" Margin="0,0,0,40" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                   Text="{Binding ProductSloganString, Mode=OneWay}" Margin="0,30,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
         <controls:TransitioningContentControl x:Name="WelcomeContentControl"
                                               Grid.Column="1"
-                                              Grid.Row="1"
+                                              Grid.Row="0"
                                               Transition="Left"
+                                              Height="auto"
+                                              Background="Transparent"
                                               RestartTransitionOnContentChange="True"
-                                              Content="{Binding Path=CurrentView, Mode=OneWay}"/>
+                                              Content="{Binding Path=CurrentView, Mode=OneWay}" Margin="0"/>
 
         <TextBlock Grid.Column="1"
-                   Grid.Row="2"
+                   Grid.Row="1"
                    VerticalAlignment="Bottom"
                    HorizontalAlignment="Center"
                    FontWeight="Normal"
