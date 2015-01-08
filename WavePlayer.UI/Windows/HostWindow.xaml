@@ -9,7 +9,7 @@
         Title="Wave Player" Height="640" Width="900" ShowTitleBar="False"
         d:DataContext="{d:DesignInstance Type=ViewModels:HostViewModel, IsDesignTimeCreatable=True}"           
         mc:Ignorable="d"
-        GlowBrush="{DynamicResource GrayNormalBrush}" Icon="/WavePlayer.UI;component/waveplay.logo.ico">
+        GlowBrush="{DynamicResource GrayNormalBrush}" Icon="/WavePlayer.UI;component/icon.ico">
     <Window.Resources>
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type ViewModels:WelcomeViewModel}">

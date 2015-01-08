@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-	<?define PRODUCTNAME = "WavePlayer"?>
+	<?define PRODUCTNAME = "Wave Player"?>
 	<?define PRODUCTVERSION = "1.0.0.0"?>
-	<?define COMPANYNAME = "Wave"?>
+	<?define COMPANYNAME = "WavePlayer Software"?>
   <?define InstallProductFolder = "WavePlayer"?>
-  <?define IconPath = "..\logo\waveplay.logo.ico"?>
+  <?define IconPath = "$(var.WavePlayer.UI.ProjectDir)icon.ico"?>
 </Include>
