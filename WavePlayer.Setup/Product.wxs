@@ -6,8 +6,8 @@
   
 	<Product Id="*" 
            Name="$(var.PRODUCTNAME)" 
-           Language="1033" 
-           Version="$(var.PRODUCTVERSION)" 
+           Language="1033"
+           Version="!(bind.FileVersion.WavePlayerExecutable)"
            Manufacturer="$(var.COMPANYNAME)" 
            UpgradeCode="f6afac30-a987-400b-9ef4-fb1e91771a60">
     
@@ -62,7 +62,7 @@
 	<Fragment>
 		<ComponentGroup Id="ProductComponents">
       <Component Id="MainExecutables" Directory="INSTALLFOLDER" Guid="023629E8-413E-48F9-921C-4531C899709D">
-        <File Source="$(var.WavePlayer.UI.TargetDir)WavePlayer.UI.exe">
+        <File Id="WavePlayerExecutable" Source="$(var.WavePlayer.UI.TargetDir)WavePlayer.UI.exe">
           <Shortcut Id="StartMenuShortcut" Icon="icon.ico" Name="$(var.PRODUCTNAME)" WorkingDirectory="INSTALLFOLDER" Directory="ProductProgramMenuFolder"/>
           <Shortcut Id="DesktopShortcut" Icon="icon.ico" Name="$(var.PRODUCTNAME)" WorkingDirectory="INSTALLFOLDER" Directory="DesktopFolder"/>
           <netfx:NativeImage Id="ngen_WavePlayer.UI.exe" Priority="0" AppBaseDirectory="INSTALLFOLDER"/>
