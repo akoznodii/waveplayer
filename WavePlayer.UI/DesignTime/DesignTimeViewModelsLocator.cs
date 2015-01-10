@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using VK.Audios;
 using WavePlayer.Ioc;
+using WavePlayer.Media;
 using WavePlayer.UI.ViewModels;
 using WavePlayer.UI.ViewModels.Playlists;
 
@@ -185,7 +186,10 @@ namespace WavePlayer.UI.DesignTime
                 EnsureInitialized();
 
                 var viewModel = Container.GetInstance<PlayerViewModel>();
-                
+
+                var player = Container.GetInstance<IPlayerEngine>();
+                player.Open(null);
+
                 return viewModel;
             }
         }

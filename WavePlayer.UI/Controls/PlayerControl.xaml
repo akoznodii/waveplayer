@@ -71,10 +71,10 @@
                                FontWeight="Bold"
                                Foreground="{DynamicResource GrayBrush1}"
                                Text="{Binding Title, Mode=OneWay}"
-                               Margin="0,0,0,-4"/>
+                               Margin="0,0,0,0"/>
                 <TextBlock FontSize="13"
-                               FontWeight="DemiBold"
-                               Foreground="{DynamicResource GrayBrush1}"
+                               FontWeight="Regular"
+                               Foreground="{DynamicResource GrayBrush2}"
                                Text="{Binding Artist, Mode=OneWay}"
                                Margin="0,0,0,0"/>
             </StackPanel>
@@ -84,7 +84,7 @@
             <TextBlock FontWeight="Normal"
                            FontSize="11"
                            Margin="0,0,5,0"
-                           Foreground="{DynamicResource GrayBrush1}">
+                           Foreground="{DynamicResource GrayBrush2}">
                 <TextBlock.Text>
                     <MultiBinding Converter="{StaticResource TimeRemainingConverter}">
                         <Binding Path="Position" Mode="OneWay"/>
@@ -99,7 +99,7 @@
                        FontWeight="Normal"
                        FontSize="11"
                        Margin="5,0,0,0"
-                       Foreground="{DynamicResource GrayBrush1}"
+                       Foreground="{DynamicResource GrayBrush2}"
                        Text="{Binding Position, Mode=OneWay, Converter={StaticResource TimeConverter}}"/>
         </Controls:TransitioningContentControl>
 

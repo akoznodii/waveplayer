@@ -30,15 +30,16 @@ namespace WavePlayer.UI
             container.RegisterInstance(typeof(IDialogService), mainWindow);
             container.RegisterInstance(typeof(HostWindow), mainWindow);
             
-            container.Register<IPlayerEngine, PlayerEngine>();
             container.Register<IConfigurationService, ConfigurationService>();
             container.Register<ILocalizationService, LocalizationService>();
 
 #if DESIGN_DATA
+            container.RegisterInstance(typeof(IPlayerEngine), DesignTime.DesignData.PlayerEngine);
             container.RegisterInstance(typeof(IAuthorizationService), DesignTime.DesignData.AuthorizationService);
             container.RegisterInstance(typeof(IVkDataProvider), DesignTime.DesignData.VkDataProvider);
             container.RegisterInstance(typeof(IPlayer), DesignTime.DesignData.Player);
 #else
+            container.Register<IPlayerEngine, PlayerEngine>();
             container.Register<IAuthorizationService, AuthorizationService>();
             container.Register<IVkDataProvider, VkDataProvider>();
             container.Register<IPlayer, Player>();

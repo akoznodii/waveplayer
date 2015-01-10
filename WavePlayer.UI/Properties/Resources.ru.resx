@@ -139,7 +139,7 @@
     <value>Фон</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value>© 2014 Waveplay. Все права защищены.</value>
+    <value>© 2014 WavePlay. Все права защищены.</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Ошибка</value>
@@ -188,9 +188,6 @@
   </data>
   <data name="Popular" xml:space="preserve">
     <value>Популярное</value>
-  </data>
-  <data name="ProductName" xml:space="preserve">
-    <value>WAVEPLAY</value>
   </data>
   <data name="ProductSlogan" xml:space="preserve">
     <value>открывай мир музыки вместе с нами</value>

@@ -3,10 +3,13 @@
     <Recognized>
       <Word>Auth</Word>
       <Word>Api</Word>
-      <Word>Waveplay</Word>
       <Word>vk</Word>
+      <Word>WavePlay</Word>
       <Word>Journaled</Word>
       <Word>Navigatable</Word>
     </Recognized>
+    <Compound>
+      <Term CompoundAlternate="WavePlay">Waveplay</Term>
+    </Compound>
   </Words>
 </Dictionary>

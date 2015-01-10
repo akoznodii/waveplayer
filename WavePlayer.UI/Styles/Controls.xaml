@@ -14,7 +14,7 @@
     <Thickness x:Key="PageTitleMargin">10,0,0,0</Thickness>
     <Thickness x:Key="ProgressBarMargin">10,0,10,0</Thickness>
     <FontWeight x:Key="ItemFontWeight">Normal</FontWeight>
-    <FontWeight x:Key="PageFontWeight">Light</FontWeight>
+    <FontWeight x:Key="PageFontWeight">Regular</FontWeight>
     
     <Style x:Key="WaveplayToggleButton" TargetType="ToggleButton">
         <Setter Property="HorizontalContentAlignment"

@@ -124,7 +124,7 @@ namespace WavePlayer.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to © 2014 Waveplay. All Rights Reserved..
+        ///   Looks up a localized string similar to © 2014 WavePlay. All Rights Reserved..
         /// </summary>
         public static string Copyright {
             get {
@@ -277,7 +277,7 @@ namespace WavePlayer.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to WAVEPLAY.
+        ///   Looks up a localized string similar to WavePlay.
         /// </summary>
         public static string ProductName {
             get {

@@ -8,7 +8,7 @@
              xmlns:metrocontrols="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:Playlists="clr-namespace:WavePlayer.UI.ViewModels.Playlists"
              mc:Ignorable="d"
-             d:DesignHeight="640" d:DesignWidth="900"
+             d:DesignHeight="640" d:DesignWidth="900" Background="{DynamicResource WhiteBrush}"
              d:DataContext="{Binding Path=MainViewModel, Source={StaticResource DesignTimeViewModelsLocator}}">
 
     <UserControl.Resources>
@@ -51,7 +51,7 @@
                 <controls:AlbumsControl DataContext="{Binding}"/>
             </DataTemplate>
             <DataTemplate x:Key="PageItemTemplate" DataType="{x:Type ViewModels:PageViewModel}">
-                <Border BorderThickness="0" Padding="5,2,5,5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Border BorderThickness="0" Padding="0,5,0,5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <TextBlock VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                            FontWeight="Light"
@@ -76,7 +76,7 @@
         <Grid Grid.Row="0" Grid.Column="0" Margin="0" Background="{DynamicResource GrayBrush10}" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="0.9*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="{StaticResource PageTitleHeightLength}"/>
@@ -84,15 +84,16 @@
             </Grid.RowDefinitions>
 
             <Rectangle Grid.Column="0" Grid.Row="0"
-                   Fill="{DynamicResource HighlightBrush}" OpacityMask="{StaticResource waveplay_logo_brush}" Margin="5,2,0,2" Height="21" VerticalAlignment="Center" HorizontalAlignment="Center" Width="35"/>
+                   Fill="{DynamicResource HighlightBrush}" OpacityMask="{StaticResource waveplay_logo_brush}" Margin="10,0,5,0" Height="21" VerticalAlignment="Center" HorizontalAlignment="Center" Width="35"/>
 
             <TextBlock Grid.Column="1"
                    Grid.Row="0"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Left"
+                   TextOptions.TextFormattingMode="Display"
                    FontSize="20"
                    Foreground="{DynamicResource GrayBrush2}"
-                   Text="{Binding ProductNameString, Mode=OneWay}"/>
+                   Text="{Binding ProductNameString, Mode=OneWay}" Margin="5,0,0,0"/>
 
             <ListBox x:Name="PagesListBox"
                      MinWidth="160"
@@ -124,6 +125,7 @@
                                                         DataContext="{Binding Mode=OneWay, NotifyOnTargetUpdated=True}" 
                                                         TargetUpdated="TransitioningControlTargetUpdated">
                 <TextBlock
+                   TextOptions.TextFormattingMode="Display"
                    Text="{Binding Title, Mode=OneWay}" 
                    Foreground="{DynamicResource GrayBrush2}"  
                    Margin="0,6,0,5"

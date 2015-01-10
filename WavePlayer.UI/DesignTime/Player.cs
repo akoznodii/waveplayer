@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using WavePlayer.Audios;
 using WavePlayer.Media;
-using WavePlayer.UI.Media;
 
 #if DESIGN_DATA
 
@@ -9,12 +8,15 @@ namespace WavePlayer.UI.DesignTime
 {
     internal class Player : IPlayer
     {
+        private readonly IPlayerEngine _playerEngine;
         private readonly Tracklist<Audio> _tracklist = new Tracklist<Audio>(DesignData.VkDataProvider.GetRecommendedAudios(null, false).ToList());
-
-        public IPlayerEngine Engine
+        
+        public Player(IPlayerEngine playerEngine)
         {
-            get { return new PlayerEngine(); }
+            _playerEngine = playerEngine;
         }
+
+        public IPlayerEngine Engine { get { return _playerEngine; } }
 
         public Track Track
         {

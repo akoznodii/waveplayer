@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -215,6 +215,7 @@
     <Compile Include="DesignTime\DesignData.cs" />
     <Compile Include="DesignTime\DesignTimeViewModelsLocator.cs" />
     <Compile Include="DesignTime\Player.cs" />
+    <Compile Include="DesignTime\PlayerEngine.cs" />
     <Compile Include="DesignTime\VkDataProvider.cs" />
     <Compile Include="Dialogs\DialogMessageBuilder.cs" />
     <Compile Include="Dialogs\IDialogService.cs" />
