@@ -6,7 +6,7 @@
     <ProductVersion>3.9</ProductVersion>
     <ProjectGuid>0a4a3970-b547-4c8d-bafb-a60fbd2875ff</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>WavePlayer.Setup</OutputName>
+    <OutputName>WavePlaySetup</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -32,7 +32,9 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="background.bmp" />
     <Content Include="Config.wxi" />
+    <Content Include="top.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WavePlayer.UI\WavePlayer.UI.csproj">

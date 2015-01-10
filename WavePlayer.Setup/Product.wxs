@@ -7,7 +7,7 @@
 	<Product Id="*" 
            Name="$(var.PRODUCTNAME)" 
            Language="1033"
-           Version="!(bind.FileVersion.WavePlayerExecutable)"
+           Version="!(bind.FileVersion.ProductExecutable)"
            Manufacturer="$(var.COMPANYNAME)" 
            UpgradeCode="f6afac30-a987-400b-9ef4-fb1e91771a60">
     
@@ -26,7 +26,11 @@
     <Property Id="ARPPRODUCTICON" Value="icon.ico" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch $(var.PRODUCTNAME)" />
-    <Property Id="WixShellExecTarget" Value="[#WavePlayer.UI.exe]" />
+    <Property Id="WixShellExecTarget" Value="[#ProductExecutable]" />
+
+    <WixVariable Id="WixUIDialogBmp" Value="background.bmp" />
+    <WixVariable Id="WixUIBannerBmp" Value="top.bmp" />
+    
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
     
     <Feature Id="ProductFeature" Title="$(var.PRODUCTNAME)" Level="1">
@@ -62,7 +66,7 @@
 	<Fragment>
 		<ComponentGroup Id="ProductComponents">
       <Component Id="MainExecutables" Directory="INSTALLFOLDER" Guid="023629E8-413E-48F9-921C-4531C899709D">
-        <File Id="WavePlayerExecutable" Source="$(var.WavePlayer.UI.TargetDir)WavePlayer.UI.exe">
+        <File Id="ProductExecutable" Source="$(var.WavePlayer.UI.TargetDir)WavePlayer.UI.exe">
           <Shortcut Id="StartMenuShortcut" Icon="icon.ico" Name="$(var.PRODUCTNAME)" WorkingDirectory="INSTALLFOLDER" Directory="ProductProgramMenuFolder"/>
           <Shortcut Id="DesktopShortcut" Icon="icon.ico" Name="$(var.PRODUCTNAME)" WorkingDirectory="INSTALLFOLDER" Directory="DesktopFolder"/>
           <netfx:NativeImage Id="ngen_WavePlayer.UI.exe" Priority="0" AppBaseDirectory="INSTALLFOLDER"/>
