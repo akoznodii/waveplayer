@@ -11,8 +11,8 @@ Using WavePlay you can:
 * Add tracks to your albums;
 * Remove tracks from your albums;
 * Read song's lyrics;
-* Change player color theme;
-* Change  player language (Supported languages: English, Russian).
+* Change color theme;
+* Change  language (supported languages: English, Russian).
 
 ### Requirements
 .NET Framework 4.5
@@ -22,4 +22,17 @@ You can download the latest player version [here](https://onedrive.live.com/down
 
 ### Used frameworks
 * [MahApps.Metro](http://mahapps.com);
+* [Simple Injector](https://simpleinjector.org);
 * [WiX Toolset](http://wixtoolset.org/).
+
+### Screenshots
+
+* Dark theme with amber accent color:
+
+	 ![dark&amber](https://raw.githubusercontent.com/akoznodii/waveplayer/master/screenshots/dark.png)
+	 
+* Light theme with teal accent color:
+
+	 ![light&teal](https://raw.githubusercontent.com/akoznodii/waveplayer/master/screenshots/light.png)
+	 
+
