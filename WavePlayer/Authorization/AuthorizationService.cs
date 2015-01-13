@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net;
 using VK;
 using VK.OAuth;
@@ -17,6 +16,7 @@ namespace WavePlayer.Authorization
         private Uri _loginUri;
         private Uri _logoutUri;
         private Uri _singupUri;
+        private long _visitorId;
 
         public AuthorizationService(VkClient vkClient, IConfigurationService configurationService)
         {
@@ -108,9 +108,21 @@ namespace WavePlayer.Authorization
         public void LoadUserInfo()
         {
             var user = _vkClient.Users.Get(UserFields.Photo50);
+
             CurrentUser.FirstName = user.FirstName;
             CurrentUser.LastName = user.LastName;
             CurrentUser.Photo = new Uri(user.Photo);
+        }
+
+        public void TrackUser()
+        {
+            if (_visitorId == _vkClient.AccessToken.UserId)
+            {
+                return;
+            }
+
+            _vkClient.Stats.TrackVisitor();
+            _visitorId = _vkClient.AccessToken.UserId;
         }
     }
 }

@@ -22,6 +22,8 @@ namespace WavePlayer.Authorization
 
         void LoadUserInfo();
 
+        void TrackUser();
+
         void Logout();
     }
 }

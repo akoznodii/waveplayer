@@ -106,6 +106,8 @@ namespace WavePlayer.UI.ViewModels
 
             try
             {
+                _authorizationService.TrackUser();
+
                 _authorizationService.LoadUserInfo();
                 
                 var user = _authorizationService.CurrentUser;
