@@ -124,6 +124,15 @@ namespace WavePlayer.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to © 2014 WavePlay. All Rights Reserved..
         /// </summary>
         public static string Copyright {
@@ -250,6 +259,15 @@ namespace WavePlayer.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oops! Something went wrong.
+        /// </summary>
+        public static string OopsSomethingWentWrong {
+            get {
+                return ResourceManager.GetString("OopsSomethingWentWrong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to page.
         /// </summary>
         public static string Page {
@@ -318,6 +336,15 @@ namespace WavePlayer.UI.Properties {
         public static string RemoveAudioCommandName {
             get {
                 return ResourceManager.GetString("RemoveAudioCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restart.
+        /// </summary>
+        public static string Restart {
+            get {
+                return ResourceManager.GetString("Restart", resourceCulture);
             }
         }
         
@@ -444,6 +471,15 @@ namespace WavePlayer.UI.Properties {
         public static string TracksCount {
             get {
                 return ResourceManager.GetString("TracksCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unhandled error has occurred.
+        /// </summary>
+        public static string UnhandledErrorHasOccurred {
+            get {
+                return ResourceManager.GetString("UnhandledErrorHasOccurred", resourceCulture);
             }
         }
         

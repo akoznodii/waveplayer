@@ -8,6 +8,8 @@ namespace WavePlayer.UI.Dialogs
 
         void NotifyError(Exception exception, Action retryAction);
 
+        void NotifyMessage(DialogMessage message);
+
         void StartProgress(string message = null);
 
         void StopProgress();

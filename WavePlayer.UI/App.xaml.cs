@@ -20,6 +20,8 @@ namespace WavePlayer.UI
             var player = Container.GetInstance<WavePlayerApp>();
 
             player.Initialize();
+            
+            DispatcherUnhandledException += player.OnUnhandledException;
 
             base.OnStartup(e);
 

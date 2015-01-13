@@ -40,7 +40,7 @@ namespace WavePlayer.UI.Windows
             StopProgressAsync();
         }
 
-        private void NotifyMessage(DialogMessage message)
+        public void NotifyMessage(DialogMessage message)
         {
             var stopTask = StopProgressAsync();
 

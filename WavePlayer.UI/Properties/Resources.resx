@@ -138,6 +138,9 @@
   <data name="Background" xml:space="preserve">
     <value>Background color</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="Copyright" xml:space="preserve">
     <value>© 2014 WavePlay. All Rights Reserved.</value>
   </data>
@@ -180,6 +183,9 @@
   <data name="OnlyForeignArtists" xml:space="preserve">
     <value>Only foreign artists</value>
   </data>
+  <data name="OopsSomethingWentWrong" xml:space="preserve">
+    <value>Oops! Something went wrong</value>
+  </data>
   <data name="Page" xml:space="preserve">
     <value>page</value>
   </data>
@@ -203,6 +209,9 @@
   </data>
   <data name="RemoveAudioCommandName" xml:space="preserve">
     <value>Remove track</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Retry</value>
@@ -245,6 +254,9 @@
   </data>
   <data name="TracksCount" xml:space="preserve">
     <value>Tracks</value>
+  </data>
+  <data name="UnhandledErrorHasOccurred" xml:space="preserve">
+    <value>Unhandled error has occurred</value>
   </data>
   <data name="UsersCount" xml:space="preserve">
     <value>Users</value>

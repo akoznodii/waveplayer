@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
+using System.Windows;
+using System.Windows.Threading;
 using VK;
 using WavePlayer.Authorization;
 using WavePlayer.Configuration;
 using WavePlayer.Ioc;
 using WavePlayer.Localization;
+using WavePlayer.UI.Dialogs;
 using WavePlayer.UI.Navigation;
 using WavePlayer.UI.Properties;
 using WavePlayer.UI.Themes;
@@ -56,6 +61,38 @@ namespace WavePlayer.UI
                 var loginViewModel = Container.GetInstance<LoginViewModel>();
                 loginViewModel.LoadUserInfoAsync();
             }
+        }
+
+        public void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            var application = Application.Current;
+
+            var dialogService = Container.GetInstance<IDialogService>();
+
+            var affirmativeAction = new Action(() =>
+            {
+                Process.Start(Assembly.GetExecutingAssembly().Location);
+                application.Shutdown();
+            });
+
+            var negativeAction = new Action(() =>
+            {
+                application.Shutdown();
+            });
+
+            var dialogMessage = new DialogMessage()
+            {
+                Title = Resources.OopsSomethingWentWrong,
+                Message = e.Exception.Message,
+                AffirmativeAction = affirmativeAction,
+                AffirmativeActionText = Resources.Restart,
+                NegativeAction = negativeAction,
+                NegativeActionText = Resources.Close
+            };
+
+            dialogService.NotifyMessage(dialogMessage);
+
+            e.Handled = true;
         }
 
         private void SetupLocalization()

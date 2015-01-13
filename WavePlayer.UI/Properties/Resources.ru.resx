@@ -138,6 +138,9 @@
   <data name="Background" xml:space="preserve">
     <value>Фон</value>
   </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
   <data name="Copyright" xml:space="preserve">
     <value>© 2014 WavePlay. Все права защищены.</value>
   </data>
@@ -180,6 +183,9 @@
   <data name="OnlyForeignArtists" xml:space="preserve">
     <value>Только зарубежные артисты</value>
   </data>
+  <data name="OopsSomethingWentWrong" xml:space="preserve">
+    <value>Ой! Что-то пошло не так</value>
+  </data>
   <data name="Page" xml:space="preserve">
     <value>страница</value>
   </data>
@@ -197,6 +203,9 @@
   </data>
   <data name="RemoveAudioCommandName" xml:space="preserve">
     <value>Удалить трек</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Перезапустить</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Повторить</value>
@@ -239,6 +248,9 @@
   </data>
   <data name="TracksCount" xml:space="preserve">
     <value>Треки</value>
+  </data>
+  <data name="UnhandledErrorHasOccured" xml:space="preserve">
+    <value>Возникла необработанная ошибка</value>
   </data>
   <data name="UsersCount" xml:space="preserve">
     <value>Пользователи</value>
