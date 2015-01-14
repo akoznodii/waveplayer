@@ -40,8 +40,8 @@
                          HorizontalAlignment="Stretch"
                          MinWidth="200"
                          Text="{Binding Query, Mode=OneWay}"
-                         metroControls:TextboxHelper.Watermark="{Binding Title, Mode=OneWay}"
-                         metroControls:TextboxHelper.ButtonCommand="{Binding SetupAudiosCommand, Mode=OneWay}"
+                         metroControls:TextBoxHelper.Watermark="{Binding Title, Mode=OneWay}"
+                         metroControls:TextBoxHelper.ButtonCommand="{Binding SetupAudiosCommand, Mode=OneWay}"
                          Style="{DynamicResource SearchMetroTextBox}"
                          ForceCursor="True">
                 <TextBox.InputBindings>

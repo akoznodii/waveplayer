@@ -44,14 +44,14 @@ namespace WavePlayer.UI.Themes
 
         public void ChangeTheme(string newThemeName, string newAccentName, bool fallback = false)
         {
-            var accent = ThemeManager.DefaultAccents
+            var accent = ThemeManager.Accents
                                      .SingleOrDefault(a => a.Name == newAccentName);
 
             if (accent == null)
             {
                 if (fallback)
                 {
-                    accent = ThemeManager.DefaultAccents.Single(a => a.Name == DefaultAccent);
+                    accent = ThemeManager.Accents.Single(a => a.Name == DefaultAccent);
 
                     Debug.WriteLine("Accent color: {0} was not found. Setup default accent color: {1}", newAccentName, accent.Name);
                 }
@@ -63,15 +63,15 @@ namespace WavePlayer.UI.Themes
                 }
             }
 
-            MahApps.Metro.Theme theme;
+            var theme = ThemeManager.AppThemes
+                                     .SingleOrDefault(a => a.Name == newThemeName);
 
-            if (!Enum.TryParse(newThemeName, out theme))
+            if (theme == null)
             {
                 if (fallback)
                 {
+                    theme = ThemeManager.AppThemes.First();
                     Debug.WriteLine("Background theme: {0} was not found. Setup default background theme: {1}", newThemeName, theme);
-
-                    theme = MahApps.Metro.Theme.Light;
                 }
                 else
                 {
@@ -81,34 +81,37 @@ namespace WavePlayer.UI.Themes
                 }
             }
 
-            ThemeManager.ChangeTheme(Application.Current, accent, theme);
+            ThemeManager.ChangeAppStyle(Application.Current, accent, theme);
 
-            CurrentTheme = AvailableThemes.Single(a => a.Name == theme.ToString());
+            CurrentTheme = AvailableThemes.Single(a => a.Name == theme.Name);
             CurrentAccent = AvailableAccents.Single(a => a.Name == accent.Name);
-
+            
             _configurationService.AccentColor = accent.Name;
-            _configurationService.Theme = theme.ToString();
+            _configurationService.Theme = theme.Name;
         }
 
         private static List<Accent> LoadAccents()
         {
-            return ThemeManager.DefaultAccents
+            return ThemeManager.Accents
                   .Select(GetAccent)
                   .ToList();
         }
 
         private static List<Theme> LoadThemes()
         {
-            var themes = Enum.GetValues(typeof(MahApps.Metro.Theme));
-
-            return themes.OfType<MahApps.Metro.Theme>()
-                         .Select(theme => new Theme() { Name = theme.ToString() })
-                         .ToList();
+            return ThemeManager.AppThemes
+                  .Select(GetTheme)
+                  .ToList();
         }
 
         private static Accent GetAccent(MahApps.Metro.Accent accent)
         {
             return new Accent() { Name = accent.Name, Color = (Color)accent.Resources["AccentColor"] };
+        }
+
+        private static Theme GetTheme(MahApps.Metro.AppTheme theme)
+        {
+            return new Theme() { Name = theme.Name };
         }
     }
 }
