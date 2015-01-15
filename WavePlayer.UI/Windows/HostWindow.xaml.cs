@@ -55,11 +55,11 @@ namespace WavePlayer.UI.Windows
 
         public void ShowCaptcha(CaptchaRequest request)
         {
-            if(Dispatcher.CheckAccess())
+            if (Dispatcher.CheckAccess())
             {
                 throw new InvalidOperationException("Captcha dialog cannot be shown from UI thread");
             }
-            
+
             Task task = null;
 
             Dispatcher.Invoke(() => task = ShowCaptchaAsync(request));
@@ -127,7 +127,7 @@ namespace WavePlayer.UI.Windows
 
             if (action != null)
             {
-                Dispatcher.InvokeAsync(action);
+                await Dispatcher.InvokeAsync(action);
             }
         }
 
