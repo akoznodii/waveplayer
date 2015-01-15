@@ -1,0 +1,39 @@
+﻿<MetroDialogs:CustomDialog xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:MetroDialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                         xmlns:Dialogs="clr-namespace:WavePlayer.UI.Controls.Dialogs"
+                         x:Class="WavePlayer.UI.Controls.Dialogs.SimpleMessageDialog"
+                         Loaded="DialogLoaded">
+    <Grid Margin="0 10 0 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                    Margin="0 5 0 0"
+                    FontSize="{StaticResource DialogMessageFontSize}"
+                    Text="{Binding Message, RelativeSource={RelativeSource AncestorType=Dialogs:SimpleMessageDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap"
+                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Dialogs:SimpleMessageDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" />
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Height="85">
+            <Button x:Name="PART_AffirmativeButton"
+                    Height="25"
+                    MinWidth="80"
+                    Style="{DynamicResource WaveplayButton}"
+                    Margin="0 0 5 0">
+                <TextBlock Text="{Binding AffirmativeButtonText, RelativeSource={RelativeSource AncestorType=Dialogs:SimpleMessageDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource WaveplayButtonTextBlock}"/>
+            </Button>
+            <Button x:Name="PART_NegativeButton"
+                    Height="25"
+                    MinWidth="80"
+                    Style="{DynamicResource WaveplayButton}"
+                    Margin="5 0 5 0">
+                <TextBlock Text="{Binding NegativeButtonText, RelativeSource={RelativeSource AncestorType=Dialogs:SimpleMessageDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource WaveplayButtonTextBlock}"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</MetroDialogs:CustomDialog>

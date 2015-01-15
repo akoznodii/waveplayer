@@ -147,6 +147,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Dialogs\SimpleMessageDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -183,6 +187,7 @@
     <Compile Include="Commands\EventToCommand.cs" />
     <Compile Include="Collections\CustomObservableCollection.cs" />
     <Compile Include="Controls\ControlExtensions.cs" />
+    <Compile Include="Controls\Dialogs\SimpleMessageDialog.cs" />
     <Compile Include="Controls\ItemsControl.xaml.cs">
       <DependentUpon>ItemsControl.xaml</DependentUpon>
     </Compile>

@@ -79,7 +79,7 @@ namespace WavePlayer.UI.Windows
             };
 
             await this.ShowMetroDialogAsync(captchaDialog);
-
+            
             request.Text = await captchaDialog.WaitForButtonPressAsync();
 
             await this.HideMetroDialogAsync(captchaDialog);
@@ -99,23 +99,28 @@ namespace WavePlayer.UI.Windows
 
         private async void ShowDialog(DialogMessage message)
         {
-            var dialogSettings = new MetroDialogSettings()
-            {
-                AffirmativeButtonText = message.AffirmativeActionText,
-                NegativeButtonText = message.NegativeActionText
-            };
-
             var buttonStyle = string.IsNullOrEmpty(message.NegativeActionText)
                 ? MessageDialogStyle.Affirmative
                 : MessageDialogStyle.AffirmativeAndNegative;
 
-            var task = this.ShowMessageAsync(message.Title, message.Message, buttonStyle, dialogSettings);
+            var simpleMessageDialog = new SimpleMessageDialog()
+            {
+                ButtonStyle = buttonStyle,
+                AffirmativeButtonText = message.AffirmativeActionText,
+                NegativeButtonText = message.NegativeActionText,
+                Message = message.Message,
+                Title = message.Title
+            };
 
-            await task;
+            await this.ShowMetroDialogAsync(simpleMessageDialog);
+
+            var result = await simpleMessageDialog.WaitForButtonPressAsync();
+
+            await this.HideMetroDialogAsync(simpleMessageDialog);
 
             Action action = null;
 
-            switch (task.Result)
+            switch (result)
             {
                 case MessageDialogResult.Affirmative:
                     action = message.AffirmativeAction;
