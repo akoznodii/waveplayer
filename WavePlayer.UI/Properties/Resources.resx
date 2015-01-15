@@ -138,6 +138,9 @@
   <data name="Background" xml:space="preserve">
     <value>Background color</value>
   </data>
+  <data name="Captcha" xml:space="preserve">
+    <value>Captcha</value>
+  </data>
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="Page" xml:space="preserve">
     <value>page</value>
+  </data>
+  <data name="PleaseEnterTheCodeShownBelow" xml:space="preserve">
+    <value>Please, enter the code shown below</value>
   </data>
   <data name="PleaseWait" xml:space="preserve">
     <value>Please wait</value>

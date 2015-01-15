@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using WavePlayer.UI.Controls;
+using WavePlayer.UI.Controls.Dialogs;
 using WavePlayer.UI.Dialogs;
 
 namespace WavePlayer.UI.Windows
@@ -48,8 +49,40 @@ namespace WavePlayer.UI.Windows
             {
                 stopTask.Wait();
             }
-            
+
             this.InvokeIfRequired(() => ShowDialog(message));
+        }
+
+        public void ShowCaptcha(CaptchaRequest request)
+        {
+            if(Dispatcher.CheckAccess())
+            {
+                throw new InvalidOperationException("Captcha dialog cannot be shown from UI thread");
+            }
+            
+            Task task = null;
+
+            Dispatcher.Invoke(() => task = ShowCaptchaAsync(request));
+
+            task.Wait();
+        }
+
+        private async Task ShowCaptchaAsync(CaptchaRequest request)
+        {
+            var captchaDialog = new CaptchaDialog
+            {
+                Title = Properties.Resources.Captcha,
+                Message = Properties.Resources.PleaseEnterTheCodeShownBelow,
+                AffirmativeButtonText = Properties.Resources.Ok,
+                NegativeButtonText = Properties.Resources.Close,
+                Source = request.Source
+            };
+
+            await this.ShowMetroDialogAsync(captchaDialog);
+
+            request.Text = await captchaDialog.WaitForButtonPressAsync();
+
+            await this.HideMetroDialogAsync(captchaDialog);
         }
 
         private void StartProgressAsync(string message)
@@ -64,7 +97,7 @@ namespace WavePlayer.UI.Windows
             return controller == null ? null : controller.CloseAsync();
         }
 
-        private void ShowDialog(DialogMessage message)
+        private async void ShowDialog(DialogMessage message)
         {
             var dialogSettings = new MetroDialogSettings()
             {
@@ -76,26 +109,26 @@ namespace WavePlayer.UI.Windows
                 ? MessageDialogStyle.Affirmative
                 : MessageDialogStyle.AffirmativeAndNegative;
 
-            this.ShowMessageAsync(message.Title, message.Message, buttonStyle, dialogSettings)
-                .ContinueWith(task =>
-                {
-                    Action action = null;
+            var task = this.ShowMessageAsync(message.Title, message.Message, buttonStyle, dialogSettings);
 
-                    switch (task.Result)
-                    {
-                        case MessageDialogResult.Affirmative:
-                            action = message.AffirmativeAction;
-                            break;
-                        case MessageDialogResult.Negative:
-                            action = message.NegativeAction;
-                            break;
-                    }
+            await task;
 
-                    if (action != null)
-                    {
-                        Dispatcher.InvokeAsync(action);
-                    }
-                });
+            Action action = null;
+
+            switch (task.Result)
+            {
+                case MessageDialogResult.Affirmative:
+                    action = message.AffirmativeAction;
+                    break;
+                case MessageDialogResult.Negative:
+                    action = message.NegativeAction;
+                    break;
+            }
+
+            if (action != null)
+            {
+                Dispatcher.InvokeAsync(action);
+            }
         }
 
         private ProgressDialogController WaitForStartProgressTask()

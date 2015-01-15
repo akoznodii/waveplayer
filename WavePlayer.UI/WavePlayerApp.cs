@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using VK;
+using VK.Common;
 using WavePlayer.Authorization;
 using WavePlayer.Configuration;
 using WavePlayer.Ioc;
@@ -42,6 +43,8 @@ namespace WavePlayer.UI
             SetupTheme();
 
             SetupPages();
+
+            SetupVkClientHandlers();
         }
 
         public void Start()
@@ -75,10 +78,7 @@ namespace WavePlayer.UI
                 application.Shutdown();
             });
 
-            var negativeAction = new Action(() =>
-            {
-                application.Shutdown();
-            });
+            var negativeAction = new Action(application.Shutdown);
 
             var dialogMessage = new DialogMessage()
             {
@@ -93,6 +93,29 @@ namespace WavePlayer.UI
             dialogService.NotifyMessage(dialogMessage);
 
             e.Handled = true;
+        }
+
+        private void SetupVkClientHandlers()
+        {
+            var client = Container.GetInstance<VkClient>();
+
+            client.CaptchaCallback += CaptchaCallback;
+        }
+
+        private bool CaptchaCallback(Captcha captcha)
+        {
+            var dialogService = Container.GetInstance<IDialogService>();
+
+            var request = new CaptchaRequest()
+            {
+                Source = new Uri(captcha.Image)
+            };
+
+            dialogService.ShowCaptcha(request);
+
+            captcha.Key = request.Text;
+
+            return !string.IsNullOrEmpty(request.Text);
         }
 
         private void SetupLocalization()

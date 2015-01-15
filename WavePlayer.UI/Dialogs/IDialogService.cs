@@ -10,6 +10,8 @@ namespace WavePlayer.UI.Dialogs
 
         void NotifyMessage(DialogMessage message);
 
+        void ShowCaptcha(CaptchaRequest request);
+
         void StartProgress(string message = null);
 
         void StopProgress();

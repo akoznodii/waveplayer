@@ -138,6 +138,9 @@
   <data name="Background" xml:space="preserve">
     <value>Фон</value>
   </data>
+  <data name="Captcha" xml:space="preserve">
+    <value>Защитный код</value>
+  </data>
   <data name="Close" xml:space="preserve">
     <value>Закрыть</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="Page" xml:space="preserve">
     <value>страница</value>
+  </data>
+  <data name="PleaseEnterTheCodeShownBelow" xml:space="preserve">
+    <value>Пожалуйста, введите код, показанный ниже</value>
   </data>
   <data name="PleaseWait" xml:space="preserve">
     <value>Подождите пожалуйста</value>
