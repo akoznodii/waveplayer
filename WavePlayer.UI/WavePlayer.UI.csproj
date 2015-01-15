@@ -178,6 +178,7 @@
     <Compile Include="Behaviors\HorizontalScrollBehavior.cs" />
     <Compile Include="Behaviors\DeferredLoadBehavior.cs" />
     <Compile Include="Behaviors\WebBrowserBehavior.cs" />
+    <Compile Include="Commands\AsyncCommandGeneric.cs" />
     <Compile Include="Commands\CommandsContainer.cs" />
     <Compile Include="Commands\EventToCommand.cs" />
     <Compile Include="Collections\CustomObservableCollection.cs" />

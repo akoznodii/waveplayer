@@ -99,10 +99,10 @@ namespace WavePlayer.UI.Commands
 
         private void Initialize()
         {
-            AddAudioCommand = new RelayCommand<Audio>(AddAudio, CanAddAudio);
-            RemoveAudioCommand = new RelayCommand<Audio>(RemoveAudio, CanRemoveAudio);
-            SearchByArtistAudioCommand = new RelayCommand<Audio>(audio => SearchAudio(audio.Artist), audio => audio != null && !string.IsNullOrEmpty(audio.Artist));
-            SearchByTitleAudioCommand = new RelayCommand<Audio>(audio => SearchAudio(audio.Title), audio => audio != null && !string.IsNullOrEmpty(audio.Title));
+            AddAudioCommand = new AsyncCommand<Audio>(AddAudio, CanAddAudio);
+            RemoveAudioCommand = new AsyncCommand<Audio>(RemoveAudio, CanRemoveAudio);
+            SearchByArtistAudioCommand = new AsyncCommand<Audio>(audio => SearchAudio(audio.Artist), audio => audio != null && !string.IsNullOrEmpty(audio.Artist));
+            SearchByTitleAudioCommand = new AsyncCommand<Audio>(audio => SearchAudio(audio.Title), audio => audio != null && !string.IsNullOrEmpty(audio.Title));
             ShowAudioLyricsCommand = Container.Instance.GetInstance<LyricsViewModel>().SetupLyricsCommand;
         }
 

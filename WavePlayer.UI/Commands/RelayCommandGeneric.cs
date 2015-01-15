@@ -50,7 +50,7 @@ namespace WavePlayer.UI.Commands
             }
         }
 
-        public bool CanExecute(object parameter)
+        public virtual bool CanExecute(object parameter)
         {
             if (_canExecute == null)
             {
@@ -62,7 +62,7 @@ namespace WavePlayer.UI.Commands
             return _canExecute(value);
         }
 
-        public void Execute(object parameter)
+        public virtual void Execute(object parameter)
         {
             var value = Convert(parameter);
 
