@@ -138,6 +138,9 @@
   <data name="Background" xml:space="preserve">
     <value>Background color</value>
   </data>
+  <data name="BroadcastAudio" xml:space="preserve">
+    <value>Broadcast audio to the user status</value>
+  </data>
   <data name="Captcha" xml:space="preserve">
     <value>Captcha</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="LoadingAccountInformation" xml:space="preserve">
     <value>loading account information</value>
+  </data>
+  <data name="Loop" xml:space="preserve">
+    <value>Loop</value>
   </data>
   <data name="MyAudios" xml:space="preserve">
     <value>My audios</value>
@@ -236,6 +242,9 @@
   </data>
   <data name="ShowAudioLyricsCommandName" xml:space="preserve">
     <value>Show lyrics</value>
+  </data>
+  <data name="Shuffle" xml:space="preserve">
+    <value>Shuffle</value>
   </data>
   <data name="SignInVk" xml:space="preserve">
     <value>Sign in with VK account</value>

@@ -124,6 +124,15 @@ namespace WavePlayer.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Broadcast audio to the user status.
+        /// </summary>
+        public static string BroadcastAudio {
+            get {
+                return ResourceManager.GetString("BroadcastAudio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Captcha.
         /// </summary>
         public static string Captcha {
@@ -210,6 +219,15 @@ namespace WavePlayer.UI.Properties {
         public static string LoadingAccountInformation {
             get {
                 return ResourceManager.GetString("LoadingAccountInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loop.
+        /// </summary>
+        public static string Loop {
+            get {
+                return ResourceManager.GetString("Loop", resourceCulture);
             }
         }
         
@@ -417,6 +435,15 @@ namespace WavePlayer.UI.Properties {
         public static string ShowAudioLyricsCommandName {
             get {
                 return ResourceManager.GetString("ShowAudioLyricsCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shuffle.
+        /// </summary>
+        public static string Shuffle {
+            get {
+                return ResourceManager.GetString("Shuffle", resourceCulture);
             }
         }
         

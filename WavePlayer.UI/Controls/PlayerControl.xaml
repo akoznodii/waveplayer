@@ -36,7 +36,7 @@
         </Grid.RowDefinitions>
         <Slider x:Name="Slider" Grid.Row="0" Width="Auto" IsMoveToPointEnabled="True" Style="{StaticResource FlatSlider}" Grid.ColumnSpan="3" Margin="0,0,0,0" Minimum="0" Value="{Binding Position, Mode=TwoWay}" Maximum="{Binding Duration, Mode=OneWay}"/>
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Stretch" Margin="0,0,0,0">
-            <ToggleButton x:Name="BroadcastToggleButton" Width="25" Height="25" Style="{DynamicResource WaveplayToggleButton}" Margin="10,0,0,0"  IsChecked="{Binding Broadcast, Mode=TwoWay}">
+            <ToggleButton x:Name="BroadcastToggleButton" Width="25" Height="25" Style="{DynamicResource WaveplayToggleButton}" Margin="10,0,0,0"  IsChecked="{Binding Broadcast, Mode=TwoWay}" ToolTip="{Binding BroadcastString, Mode=OneWay}">
                 <Rectangle Width="16" Height="14" Margin="0,0,0,0" Fill="{Binding ElementName=BroadcastToggleButton, Path=Foreground}" OpacityMask="{StaticResource SpeakerPhoneBrush}"/>
             </ToggleButton>
             <Button x:Name="RewindButton" Width="25" Height="25" Style="{DynamicResource WaveplayPlayerButton}" Margin="10,0,15,0" Command="{Binding RewindCommand, Mode=OneWay}">
@@ -57,10 +57,10 @@
             <Button x:Name="ForwardButton" Width="25" Height="25" Style="{DynamicResource WaveplayPlayerButton}" BorderThickness="2" Margin="15,0,10,0" Command="{Binding ForwardCommand, Mode=OneWay}">
                 <Rectangle   Width="16" Height="11" Fill="{Binding ElementName=ForwardButton, Path=Foreground}" OpacityMask="{StaticResource ForwardBrush}"/>
             </Button>
-            <ToggleButton x:Name="ShuffleToggleButton"  Width="25" Height="25" Style="{DynamicResource WaveplayToggleButton}"  Margin="0,0,0,0" IsChecked="{Binding Shuffle, Mode=TwoWay}">
+            <ToggleButton x:Name="ShuffleToggleButton"  Width="25" Height="25" Style="{DynamicResource WaveplayToggleButton}"  Margin="0,0,0,0" IsChecked="{Binding Shuffle, Mode=TwoWay}" ToolTip="{Binding ShuffleString, Mode=OneWay}">
                 <Rectangle Width="16" Height="11" Fill="{Binding ElementName=ShuffleToggleButton, Path=Foreground}" OpacityMask="{StaticResource ShuffleBrush}"/>
             </ToggleButton>
-            <ToggleButton x:Name="LoopToggleButton" Width="25" Height="25" Style="{DynamicResource WaveplayToggleButton}" Margin="0,0,0,0" IsChecked="{Binding Loop, Mode=TwoWay}">
+            <ToggleButton x:Name="LoopToggleButton" Width="25" Height="25" Style="{DynamicResource WaveplayToggleButton}" Margin="0,0,0,0" IsChecked="{Binding Loop, Mode=TwoWay}" ToolTip="{Binding LoopString, Mode=OneWay}">
                 <Rectangle Width="16" Height="11" Margin="0,2,0,0" Fill="{Binding ElementName=LoopToggleButton, Path=Foreground}" OpacityMask="{StaticResource LoopBrush}"/>
             </ToggleButton>
         </StackPanel>

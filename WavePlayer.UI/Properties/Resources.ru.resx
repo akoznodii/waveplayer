@@ -138,6 +138,9 @@
   <data name="Background" xml:space="preserve">
     <value>Фон</value>
   </data>
+  <data name="BroadcastAudio" xml:space="preserve">
+    <value>Транслировать аудиозапись в статус пользователя</value>
+  </data>
   <data name="Captcha" xml:space="preserve">
     <value>Защитный код</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="LoadingAccountInformation" xml:space="preserve">
     <value>загрузка даных пользователя</value>
+  </data>
+  <data name="Loop" xml:space="preserve">
+    <value>Повторять эту аудиозапись</value>
   </data>
   <data name="MyAudios" xml:space="preserve">
     <value>Мои аудиозаписи</value>
@@ -230,6 +236,9 @@
   </data>
   <data name="ShowAudioLyricsCommandName" xml:space="preserve">
     <value>Посмотреть текс песни</value>
+  </data>
+  <data name="Shuffle" xml:space="preserve">
+    <value>Перемешать</value>
   </data>
   <data name="SignInVk" xml:space="preserve">
     <value>Войти в ВК</value>

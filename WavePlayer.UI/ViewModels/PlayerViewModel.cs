@@ -4,8 +4,10 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using VK;
 using VK.Audios;
+using WavePlayer.Localization;
 using WavePlayer.Media;
 using WavePlayer.UI.Commands;
+using WavePlayer.UI.Properties;
 using WavePlayer.UI.Threading;
 using Audio = WavePlayer.Audios.Audio;
 
@@ -223,6 +225,26 @@ namespace WavePlayer.UI.ViewModels
             }
         }
 
+        #region Localization fields
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Localizable resource string")]
+        public string BroadcastString
+        {
+            get { return Resources.BroadcastAudio; }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Localizable resource string")]
+        public string LoopString
+        {
+            get { return Resources.Loop; }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Localizable resource string")]
+        public string ShuffleString
+        {
+            get { return Resources.Shuffle; }
+        }
+        #endregion
+
         private void OnPlaybackStateChanged(object sender, EventArgs args)
         {
             var state = _playerEngine.PlaybackState;
@@ -311,6 +333,15 @@ namespace WavePlayer.UI.ViewModels
                     Console.WriteLine("Failed to broadcast audio with id {0};{1}Error: {2}", audio.Id, Environment.NewLine, e);
                 }
             });
+        }
+
+        public override void UpdateLocalization()
+        {
+            base.UpdateLocalization();
+
+            RaisePropertyChanged("BroadcastString");
+            RaisePropertyChanged("LoopString");
+            RaisePropertyChanged("ShuffleString");
         }
     }
 }
