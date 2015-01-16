@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
+using VK;
+using VK.Audios;
 using WavePlayer.Media;
 using WavePlayer.UI.Commands;
 using WavePlayer.UI.Threading;
+using Audio = WavePlayer.Audios.Audio;
 
 namespace WavePlayer.UI.ViewModels
 {
@@ -11,6 +15,7 @@ namespace WavePlayer.UI.ViewModels
     {
         private readonly IPlayer _player;
         private readonly IPlayerEngine _playerEngine;
+        private readonly VkClient _vkClient;
         private readonly DispatcherTimer _timer;
         private readonly RelayCommand _forwardCommand;
         private readonly RelayCommand _rewindCommand;
@@ -23,12 +28,14 @@ namespace WavePlayer.UI.ViewModels
         private bool _shuffle;
         private bool _loop;
         private double _soundLevel;
+        private bool _broadcast;
+        private long _broadcastedAudioId;
 
-        public PlayerViewModel(IPlayer player)
+        public PlayerViewModel(IPlayer player, VkClient vkClient)
         {
             _player = player;
             _playerEngine = _player.Engine;
-
+            _vkClient = vkClient;
             _timer = new DispatcherTimer()
             {
                 Interval = TimeSpan.FromMilliseconds(500)
@@ -177,6 +184,21 @@ namespace WavePlayer.UI.ViewModels
             }
         }
 
+        public bool Broadcast
+        {
+            get
+            {
+                return _broadcast;
+            }
+
+            set
+            {
+                SetField(ref _broadcast, value);
+
+                BroadcastAudio(_player.Track as Audio);
+            }
+        }
+
         public ICommand PlayCommand
         {
             get
@@ -215,6 +237,7 @@ namespace WavePlayer.UI.ViewModels
                     break;
                 case PlaybackState.Playing:
                     DispatcherHelper.InvokeOnUI(StartPlayback);
+                    BroadcastAudio(Track as Audio);
                     break;
             }
 
@@ -251,6 +274,43 @@ namespace WavePlayer.UI.ViewModels
 
             SetField(ref _position, postion.TotalMilliseconds, "Position");
             Duration = duration.TotalMilliseconds;
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Should be safe method")]
+        private void BroadcastAudio(Audio audio)
+        {
+            if (audio == null)
+            {
+                return;
+            }
+
+            var audioId = audio.Id;
+            var ownerId = audio.OwnerId;
+            var ownerType = audio.OwnerIsGroup ? OwnerType.Group : OwnerType.User;
+
+            if (!_broadcast)
+            {
+                if (_broadcastedAudioId == 0)
+                {
+                    return;
+                }
+
+                audioId = 0;
+                ownerId = 0;
+            }
+
+            Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    _vkClient.Audios.SetBroadcast(audioId, ownerId, ownerType);
+                    _broadcastedAudioId = audioId;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("Failed to broadcast audio with id {0};{1}Error: {2}", audio.Id, Environment.NewLine, e);
+                }
+            });
         }
     }
 }
