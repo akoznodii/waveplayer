@@ -16,25 +16,15 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>..\..\vksdk\Settings.ruleset</CodeAnalysisRuleSet>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <CodeAnalysisRuleSet>..\Settings.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SimpleInjector">
@@ -63,6 +53,15 @@
     <Compile Include="Audios\Audio.cs" />
     <Compile Include="Audios\Lyrics.cs" />
     <Compile Include="Caching\GenericCache.cs" />
+    <Compile Include="Fmod\Native\Channel.cs" />
+    <Compile Include="Fmod\Native\ChannelGroup.cs" />
+    <Compile Include="Fmod\Native\FmodLibrary.cs" />
+    <Compile Include="Fmod\Native\FmodStructures.cs" />
+    <Compile Include="Fmod\Native\Handle.cs" />
+    <Compile Include="Fmod\Native\NativeMethods.cs" />
+    <Compile Include="Fmod\Native\Sound.cs" />
+    <Compile Include="Fmod\Native\FmodSystem.cs" />
+    <Compile Include="Fmod\PlayerEngine.cs" />
     <Compile Include="Media\IPlayer.cs" />
     <Compile Include="Media\Tracklist.cs" />
     <Compile Include="Audios\AudioEventArgs.cs" />

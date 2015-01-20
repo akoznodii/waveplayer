@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WavePlayer.UI", "WavePlayer.UI\WavePlayer.UI.csproj", "{B22E02A6-4908-465B-A735-2F8371365520}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6894BF0F-46BA-492D-A311-D7CD8BD4CB9A}"
@@ -24,14 +22,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B22E02A6-4908-465B-A735-2F8371365520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B22E02A6-4908-465B-A735-2F8371365520}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B22E02A6-4908-465B-A735-2F8371365520}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B22E02A6-4908-465B-A735-2F8371365520}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DCDD913B-6022-4F69-9E2F-554D1A4EC3B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DCDD913B-6022-4F69-9E2F-554D1A4EC3B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DCDD913B-6022-4F69-9E2F-554D1A4EC3B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DCDD913B-6022-4F69-9E2F-554D1A4EC3B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B22E02A6-4908-465B-A735-2F8371365520}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B22E02A6-4908-465B-A735-2F8371365520}.Debug|Any CPU.Build.0 = Debug|x86
+		{B22E02A6-4908-465B-A735-2F8371365520}.Release|Any CPU.ActiveCfg = Release|x86
+		{B22E02A6-4908-465B-A735-2F8371365520}.Release|Any CPU.Build.0 = Release|x86
+		{DCDD913B-6022-4F69-9E2F-554D1A4EC3B2}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DCDD913B-6022-4F69-9E2F-554D1A4EC3B2}.Debug|Any CPU.Build.0 = Debug|x86
+		{DCDD913B-6022-4F69-9E2F-554D1A4EC3B2}.Release|Any CPU.ActiveCfg = Release|x86
+		{DCDD913B-6022-4F69-9E2F-554D1A4EC3B2}.Release|Any CPU.Build.0 = Release|x86
 		{75AB15D9-2CBC-4827-B28E-785856D6F465}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75AB15D9-2CBC-4827-B28E-785856D6F465}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75AB15D9-2CBC-4827-B28E-785856D6F465}.Release|Any CPU.ActiveCfg = Release|Any CPU
