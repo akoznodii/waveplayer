@@ -39,7 +39,7 @@ namespace WavePlayer.UI
             container.RegisterInstance(typeof(IVkDataProvider), DesignTime.DesignData.VkDataProvider);
             container.RegisterInstance(typeof(IPlayer), DesignTime.DesignData.Player);
 #else
-            container.Register<IPlayerEngine, PlayerEngine>();
+            container.Register<IPlayerEngine, Fmod.PlayerEngine>();
             container.Register<IAuthorizationService, AuthorizationService>();
             container.Register<IVkDataProvider, VkDataProvider>();
             container.Register<IPlayer, Player>();

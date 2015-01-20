@@ -21,6 +21,7 @@
     <OutputPath>bin\x86\Debug\</OutputPath>
     <CodeAnalysisRuleSet>..\Settings.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -63,10 +64,14 @@
     <Compile Include="Fmod\Native\FmodSystem.cs" />
     <Compile Include="Fmod\PlayerEngine.cs" />
     <Compile Include="Media\IPlayer.cs" />
+    <Compile Include="Fmod\MediaSource.cs" />
     <Compile Include="Media\Tracklist.cs" />
     <Compile Include="Audios\AudioEventArgs.cs" />
+    <Compile Include="Network\Downloader.cs" />
     <Compile Include="Network\FileInfo.cs" />
     <Compile Include="Network\HttpWebRequestHelper.cs" />
+    <Compile Include="Network\Segment.cs" />
+    <Compile Include="Network\DownloaderState.cs" />
     <Compile Include="Providers\IVkDataProvider.cs" />
     <Compile Include="Providers\ModelExtensions.cs" />
     <Compile Include="Audios\Genre.cs" />

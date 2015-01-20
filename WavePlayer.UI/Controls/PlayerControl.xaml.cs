@@ -48,8 +48,8 @@ namespace WavePlayer.UI.Controls
                 viewModel.PlaybackState != PlaybackState.Playing &&
                 viewModel.PlaybackState != PlaybackState.Paused)
             {
-                TimeTransitioningControl.ReloadTransition();
-                LeftTimeTransitioningControl.ReloadTransition();
+                TimeTransitioningControl.InvokeIfRequired(TimeTransitioningControl.ReloadTransition);
+                LeftTimeTransitioningControl.InvokeIfRequired(LeftTimeTransitioningControl.ReloadTransition);
             }
         }
     }

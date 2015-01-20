@@ -6,11 +6,17 @@ namespace WavePlayer.Network
 {
     internal static class HttpWebRequestHelper
     {
-        private const int DefaultTimeout = 30000;
-        
+        static HttpWebRequestHelper()
+        {
+            ServicePointManager.DefaultConnectionLimit = 12 * Environment.ProcessorCount;
+            DefaultTimeout = TimeSpan.FromSeconds(5);
+        }
+
+        public static TimeSpan DefaultTimeout { get; set; }
+
         public static FileInfo GetRemoteFileInfo(Uri location)
         {
-            var request = (HttpWebRequest)WebRequest.Create(location);
+            var request = CreateRequest(location);
 
             var response = request.GetResponse();
 
@@ -24,9 +30,7 @@ namespace WavePlayer.Network
 
         public static Stream CreateStream(Uri location, long startPosition, long endPosition)
         {
-            var request = (HttpWebRequest)WebRequest.Create(location);
-
-            request.Timeout = DefaultTimeout;
+            var request = CreateRequest(location);
 
             if (endPosition != 0)
             {
@@ -40,6 +44,15 @@ namespace WavePlayer.Network
             var response = request.GetResponse();
 
             return response.GetResponseStream();
+        }
+
+        private static HttpWebRequest CreateRequest(Uri location)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(location);
+
+            request.Timeout = (int)DefaultTimeout.TotalMilliseconds;
+
+            return request;
         }
     }
 }
