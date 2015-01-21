@@ -66,6 +66,8 @@
     <Compile Include="Media\IPlayer.cs" />
     <Compile Include="Media\Tracklist.cs" />
     <Compile Include="Audios\AudioEventArgs.cs" />
+    <Compile Include="Network\FileInfo.cs" />
+    <Compile Include="Network\HttpWebRequestHelper.cs" />
     <Compile Include="Providers\IVkDataProvider.cs" />
     <Compile Include="Providers\ModelExtensions.cs" />
     <Compile Include="Audios\Genre.cs" />
