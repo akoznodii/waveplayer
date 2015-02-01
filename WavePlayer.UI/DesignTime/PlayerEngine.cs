@@ -43,6 +43,14 @@ namespace WavePlayer.UI.DesignTime
 
         public PlaybackState PlaybackState { get{return _state;} set { _state = value; } }
 
+        public IEqualizer Equalizer
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         public System.Uri Source
         {
             get { return null; }

@@ -16,6 +16,7 @@ namespace WavePlayer.Fmod
         private const long MaximumCacheSize = 25 * 1024 * 1024;
 
         private readonly object _engineLock = new object();
+        private Equalizer _equalizer;
         private FmodSystem _fmodSystem;
         private Sound _sound;
         private Channel _channel;
@@ -60,6 +61,14 @@ namespace WavePlayer.Fmod
             {
                 _playbackState = value;
                 OnEvent(PlaybackStateChanged);
+            }
+        }
+
+        public IEqualizer Equalizer
+        {
+            get
+            {
+                return _equalizer;
             }
         }
 
@@ -178,6 +187,9 @@ namespace WavePlayer.Fmod
             _readCallback = ReadCallback;
             _seekCallback = SeekCallback;
 
+            _equalizer = new Equalizer(_fmodSystem);
+            _equalizer.Initialize(true, null);
+
             _buffer = new byte[BufferSize];
 
             _fmodSystem.SetBufferSize(BufferSize);
@@ -262,6 +274,12 @@ namespace WavePlayer.Fmod
         public void Dispose()
         {
             CloseInternal();
+
+            if (_equalizer != null)
+            {
+                _equalizer.Dispose();
+                _equalizer = null;
+            }
 
             if (_fmodSystem != null)
             {

@@ -19,7 +19,9 @@ namespace WavePlayer.Media
         event EventHandler PlaybackStateChanged;
 
         PlaybackState PlaybackState { get; }
-        
+
+        IEqualizer Equalizer { get; }
+
         Uri Source { get; }
 
         double Volume { get; set; }

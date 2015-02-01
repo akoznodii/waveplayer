@@ -39,6 +39,9 @@ namespace WavePlayer.Fmod.Native
         [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_System_SetStreamBufferSize"), SuppressUnmanagedCodeSecurity]
         public static extern ErrorCode SetStreamBufferSize(IntPtr system, uint bufferSize, TimeUnit timeUnit);
 
+        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_System_CreateDSPByType"), SuppressUnmanagedCodeSecurity]
+        public static extern ErrorCode CreateDsp(IntPtr system, DspType dspType, ref IntPtr dsp);
+
         #endregion
 
         #region Sound API functions
@@ -96,7 +99,7 @@ namespace WavePlayer.Fmod.Native
 
         #endregion
 
-        #region ChannelGroup API function 
+        #region ChannelGroup API function
 
         [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_ChannelGroup_Release"), SuppressUnmanagedCodeSecurity]
         public static extern ErrorCode ReleaseChannelGroup(IntPtr channelGroup);
@@ -113,6 +116,36 @@ namespace WavePlayer.Fmod.Native
         [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_Channel_GetVolume"), SuppressUnmanagedCodeSecurity]
         public static extern ErrorCode GetVolumeChannelGroup(IntPtr channelGroup, out float volume);
 
+        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_ChannelGroup_GetNumDSPs"), SuppressUnmanagedCodeSecurity]
+        public static extern ErrorCode GetDspNumber(IntPtr channelGroup, out int number);
+
+        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_ChannelGroup_AddDSP"), SuppressUnmanagedCodeSecurity]
+        public static extern ErrorCode AddDsp(IntPtr channelGroup, int index, IntPtr dsp);
+
+        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_ChannelGroup_RemoveDSP"), SuppressUnmanagedCodeSecurity]
+        public static extern ErrorCode RemoveDsp(IntPtr channelGroup, IntPtr dsp);
+
+        #endregion
+
+        #region DSP API functions
+
+        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_DSP_Release"), SuppressUnmanagedCodeSecurity]
+        public static extern ErrorCode ReleaseDsp(IntPtr dsp);
+
+        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_DSP_SetActive"), SuppressUnmanagedCodeSecurity]
+        public static extern ErrorCode SetActive(IntPtr dsp, [MarshalAs(UnmanagedType.Bool)]bool active);
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "May be used later")]
+        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_DSP_GetActive"), SuppressUnmanagedCodeSecurity]
+        public static extern ErrorCode GetActive(IntPtr dsp, [MarshalAs(UnmanagedType.Bool)] out bool active);
+
+        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_DSP_SetParameterFloat"), SuppressUnmanagedCodeSecurity]
+        public static extern ErrorCode SetParameter(IntPtr dsp, int index, float value);
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA2101:SpecifyMarshalingForPInvokeStringArguments", MessageId = "3", Justification = "It is OK")]
+        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_DSP_GetParameterFloat"), SuppressUnmanagedCodeSecurity]
+        public static extern ErrorCode GetParameter(IntPtr dsp, int index, out float value1, string value2, int length);
+        
         #endregion
     }
 }

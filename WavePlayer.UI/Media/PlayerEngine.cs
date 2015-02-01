@@ -60,6 +60,14 @@ namespace WavePlayer.UI.Media
             }
         }
 
+        public IEqualizer Equalizer
+        {
+            get
+            {
+                return null;
+            }
+        }
+
         public Uri Source
         {
             get { return _mediaPlayer.Source; }

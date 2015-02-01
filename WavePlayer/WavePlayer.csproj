@@ -20,7 +20,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Debug\</OutputPath>
     <CodeAnalysisRuleSet>..\Settings.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
@@ -55,8 +55,10 @@
     <Compile Include="Audios\Audio.cs" />
     <Compile Include="Audios\Lyrics.cs" />
     <Compile Include="Caching\GenericCache.cs" />
+    <Compile Include="Fmod\Equalizer.cs" />
     <Compile Include="Fmod\Native\Channel.cs" />
     <Compile Include="Fmod\Native\ChannelGroup.cs" />
+    <Compile Include="Fmod\Native\Dsp.cs" />
     <Compile Include="Fmod\Native\FmodLibrary.cs" />
     <Compile Include="Fmod\Native\FmodStructures.cs" />
     <Compile Include="Fmod\Native\Handle.cs" />
@@ -64,6 +66,8 @@
     <Compile Include="Fmod\Native\Sound.cs" />
     <Compile Include="Fmod\Native\FmodSystem.cs" />
     <Compile Include="Fmod\PlayerEngine.cs" />
+    <Compile Include="Media\EqualizerHelper.cs" />
+    <Compile Include="Media\IEqualizer.cs" />
     <Compile Include="Media\IPlayer.cs" />
     <Compile Include="Fmod\MediaSource.cs" />
     <Compile Include="Media\Tracklist.cs" />

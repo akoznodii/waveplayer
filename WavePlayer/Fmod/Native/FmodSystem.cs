@@ -52,6 +52,15 @@ namespace WavePlayer.Fmod.Native
             return new Sound(soundHandle);
         }
 
+        public Dsp CreateDsp(DspType dspType)
+        {
+            var dspHandle = IntPtr.Zero;
+
+            ErrorHandler.ThrowIfError(NativeMethods.CreateDsp(DangerousGetHandle(), dspType, ref dspHandle));
+
+            return new Dsp(dspHandle);
+        }
+
         public Channel PlaySound(Sound sound, bool paused)
         {
             var channelHandle = IntPtr.Zero;
