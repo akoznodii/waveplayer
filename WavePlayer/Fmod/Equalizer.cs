@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WavePlayer.Fmod.Native;
 using WavePlayer.Media;
 
 namespace WavePlayer.Fmod
 {
-    internal sealed class Equalizer : IEqualizer, IDisposable
+    internal sealed class Equalizer : EqualizerBase, IDisposable
     {
         private readonly Dictionary<int, Dsp> _bands = new Dictionary<int, Dsp>();
         private readonly FmodSystem _system;
@@ -19,7 +16,7 @@ namespace WavePlayer.Fmod
             _system = system;
         }
 
-        public bool IsEnabled
+        public override bool IsEnabled
         {
             get
             {
@@ -44,17 +41,17 @@ namespace WavePlayer.Fmod
             }
         }
 
-        public void Initialize(bool isEnabled, IDictionary<int, float> frequencyGains)
+        protected override void InitializeInternal(bool isEnabled, IDictionary<int, float> bands)
         {
-            var gainsSpecified = frequencyGains != null;
+            var bandsSpecified = bands != null;
 
             _isEnabled = isEnabled;
 
             using (var channelGroup = _system.MasterChannelGroup)
             {
-                foreach (var frequency in EqualizerHelper.FrequencyRange)
+                foreach (var frequency in FrequencyRange)
                 {
-                    var gain = gainsSpecified && frequencyGains.ContainsKey(frequency) ? frequencyGains[frequency] : 0;
+                    var gain = bandsSpecified && bands.ContainsKey(frequency) ? bands[frequency] : 0;
 
                     var dsp = _system.CreateDsp(DspType.FMOD_DSP_TYPE_PARAMEQ);
 
@@ -72,40 +69,31 @@ namespace WavePlayer.Fmod
             _system.Update();
         }
 
-        public IEnumerable<int> FrequencyRange
+        protected override void SetBandGainInternal(int frequency, float gain)
         {
-            get
-            {
-                return EqualizerHelper.FrequencyRange;
-            }
-        } 
-
-        public void SetBandGain(int frequency, float gain)
-        {
-            if (GetBandGain(frequency) == gain)
+            if (Math.Abs(GetBandGain(frequency) - gain) < Single.Epsilon)
             {
                 return;
             }
 
             Dsp dsp;
 
-            if (_bands.TryGetValue(frequency, out dsp))
+            if (!_bands.TryGetValue(frequency, out dsp))
             {
-                dsp.SetParameter((int)EqualizerParameters.FMOD_DSP_PARAMEQ_GAIN, gain);
-                _system.Update();
+                return;
             }
+
+            dsp.SetParameter((int)EqualizerParameters.FMOD_DSP_PARAMEQ_GAIN, gain);
+            _system.Update();
         }
 
-        public float GetBandGain(int frequency)
+        protected override float GetBandGainInternal(int frequency)
         {
             Dsp dsp;
 
-            if (_bands.TryGetValue(frequency, out dsp))
-            {
-                return dsp.GetParameter((int)EqualizerParameters.FMOD_DSP_PARAMEQ_GAIN);
-            }
-
-            return 0;
+            return _bands.TryGetValue(frequency, out dsp) ?
+                dsp.GetParameter((int)EqualizerParameters.FMOD_DSP_PARAMEQ_GAIN) :
+                0;
         }
 
         public void Dispose()

@@ -188,7 +188,7 @@ namespace WavePlayer.Fmod
             _seekCallback = SeekCallback;
 
             _equalizer = new Equalizer(_fmodSystem);
-            _equalizer.Initialize(true, null);
+            _equalizer.Initialize();
 
             _buffer = new byte[BufferSize];
 

@@ -66,7 +66,8 @@
     <Compile Include="Fmod\Native\Sound.cs" />
     <Compile Include="Fmod\Native\FmodSystem.cs" />
     <Compile Include="Fmod\PlayerEngine.cs" />
-    <Compile Include="Media\EqualizerHelper.cs" />
+    <Compile Include="Media\EqualizerBase.cs" />
+    <Compile Include="Media\EqualizerPreset.cs" />
     <Compile Include="Media\IEqualizer.cs" />
     <Compile Include="Media\IPlayer.cs" />
     <Compile Include="Fmod\MediaSource.cs" />
