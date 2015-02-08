@@ -40,8 +40,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Debug\</OutputPath>
     <CodeAnalysisRuleSet>..\Settings.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DefineConstants>DEBUG</DefineConstants>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <DefineConstants>DEBUG;CODE_ANALYSIS;DESIGN_DATA</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -79,6 +80,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\EqualizerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ItemsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -176,6 +181,9 @@
     <Compile Include="Collections\CustomObservableCollection.cs" />
     <Compile Include="Controls\ControlExtensions.cs" />
     <Compile Include="Controls\Dialogs\SimpleMessageDialog.cs" />
+    <Compile Include="Controls\EqualizerControl.xaml.cs">
+      <DependentUpon>EqualizerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ItemsControl.xaml.cs">
       <DependentUpon>ItemsControl.xaml</DependentUpon>
     </Compile>
@@ -212,6 +220,7 @@
     <Compile Include="DesignTime\AuthorizationService.cs" />
     <Compile Include="DesignTime\DesignData.cs" />
     <Compile Include="DesignTime\DesignTimeViewModelsLocator.cs" />
+    <Compile Include="DesignTime\Equalizer.cs" />
     <Compile Include="DesignTime\Player.cs" />
     <Compile Include="DesignTime\PlayerEngine.cs" />
     <Compile Include="DesignTime\VkDataProvider.cs" />
@@ -239,6 +248,8 @@
     <Compile Include="Themes\Theme.cs" />
     <Compile Include="Themes\ThemeService.cs" />
     <Compile Include="Threading\DispatcherHelper.cs" />
+    <Compile Include="ViewModels\EqualizerBandViewModel.cs" />
+    <Compile Include="ViewModels\EqualizerViewModel.cs" />
     <Compile Include="ViewModels\LoadInfoViewModel.cs" />
     <Compile Include="ViewModels\HostViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />

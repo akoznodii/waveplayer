@@ -118,15 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Default" xml:space="preserve">
-    <value>Default</value>
+    <value>По умолчанию</value>
   </data>
   <data name="LanguageNotFound" xml:space="preserve">
-    <value>Language not found</value>
+    <value>Язык не был найден</value>
   </data>
   <data name="Manual" xml:space="preserve">
-    <value>Manual</value>
-  </data>
-  <data name="TypeIsNotResource" xml:space="preserve">
-    <value>Specified type '{0}' is not a resource type</value>
+    <value>Пользовательский</value>
   </data>
 </root>

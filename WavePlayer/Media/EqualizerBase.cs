@@ -4,13 +4,17 @@ using WavePlayer.Localization;
 
 namespace WavePlayer.Media
 {
-    public abstract class EqualizerBase : IEqualizer, ILocalizable
+    public abstract class EqualizerBase : IEqualizer
     {
         private EqualizerPreset _currentPreset;
 
         public event EventHandler PresetChanged;
 
         public virtual bool IsEnabled { get; set; }
+
+        public float MaximumGain { get { return 12.0f; } }
+
+        public float MinimumGain { get { return -12.0f; } }
 
         public IEnumerable<int> FrequencyRange
         {
@@ -23,7 +27,7 @@ namespace WavePlayer.Media
 
             set
             {
-                if (_currentPreset == value)
+                if (_currentPreset == value || value == null)
                 {
                     return;
                 }
@@ -124,7 +128,7 @@ namespace WavePlayer.Media
 
         private void SaveBandGain(int frequency, float gain)
         {
-            if (CurrentPreset.Name == EqualizerPreset.Manual)
+            if (CurrentPreset.Name != EqualizerPreset.Manual)
             {
                 return;
             }

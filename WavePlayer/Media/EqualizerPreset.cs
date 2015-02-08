@@ -43,9 +43,9 @@ namespace WavePlayer.Media
             switch (name)
             {
                 case Default:
-                    return "Default";
+                    return WavePlayerLocalization.Default;
                 case Manual:
-                    return "Manual";
+                    return WavePlayerLocalization.Manual;
                 default:
                     return String.Empty;
             }
@@ -95,7 +95,7 @@ namespace WavePlayer.Media
 
             foreach (var frequency in FrequencyRange)
             {
-                var gain = gains != null && gains.Length < idx ? gains[idx] : 0;
+                var gain = gains != null && gains.Length > idx ? gains[idx] : 0;
                 result.Add(frequency, gain);
                 idx++;
             }

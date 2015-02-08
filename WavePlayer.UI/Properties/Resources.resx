@@ -150,6 +150,9 @@
   <data name="Copyright" xml:space="preserve">
     <value>© 2014 WavePlay. All Rights Reserved.</value>
   </data>
+  <data name="Equalizer" xml:space="preserve">
+    <value>Equalizer</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
@@ -186,8 +189,14 @@
   <data name="NowPlaying" xml:space="preserve">
     <value>Now playing</value>
   </data>
+  <data name="Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
   <data name="Ok" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>On</value>
   </data>
   <data name="OnlyForeignArtists" xml:space="preserve">
     <value>Only foreign artists</value>

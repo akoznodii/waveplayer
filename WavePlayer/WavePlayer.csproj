@@ -116,6 +116,11 @@
     <Compile Include="Requests\UserFriendsRequest.cs" />
     <Compile Include="Requests\UserGroupsRequest.cs" />
     <Compile Include="Users\User.cs" />
+    <Compile Include="WavePlayerLocalization.ru.Designer.cs">
+      <DependentUpon>WavePlayerLocalization.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="WavePlayerLocalization.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -136,6 +141,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="WavePlayerLocalization.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>WavePlayerLocalization.ru.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="WavePlayerLocalization.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>WavePlayerLocalization.Designer.cs</LastGenOutput>

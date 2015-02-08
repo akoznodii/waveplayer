@@ -7,8 +7,9 @@ namespace WavePlayer.UI.DesignTime
 {
     internal class PlayerEngine : IPlayerEngine
     {
+        private readonly Equalizer _equalizer = new Equalizer();
         private PlaybackState _state;
-
+        
         public event System.EventHandler<Common.ExceptionEventArgs> MediaFailed
         {
             add { throw new NotSupportedException(); }
@@ -47,7 +48,7 @@ namespace WavePlayer.UI.DesignTime
         {
             get
             {
-                return null;
+                return _equalizer;
             }
         }
 

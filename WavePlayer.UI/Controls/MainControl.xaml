@@ -44,6 +44,9 @@
             <DataTemplate DataType="{x:Type ViewModels:LyricsViewModel}">
                 <controls:LyricsControl DataContext="{Binding}"/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:EqualizerViewModel}">
+                <controls:EqualizerControl DataContext="{Binding}"/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type Playlists:GroupMusicViewModel}">
                 <controls:AlbumsControl DataContext="{Binding}"/>
             </DataTemplate>
