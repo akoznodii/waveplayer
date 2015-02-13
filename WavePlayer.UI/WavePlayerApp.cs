@@ -40,11 +40,12 @@ namespace WavePlayer.UI
 
             SetupLocalization();
 
+            SetupPages();
+#if !DESIGN_DATA
             SetupTheme();
 
-            SetupPages();
-
             SetupVkClientHandlers();
+#endif
         }
 
         public void Start()
@@ -95,6 +96,7 @@ namespace WavePlayer.UI
             e.Handled = true;
         }
 
+#if !DESIGN_DATA
         private void SetupVkClientHandlers()
         {
             var client = Container.GetInstance<VkClient>();
@@ -118,6 +120,14 @@ namespace WavePlayer.UI
             return !string.IsNullOrEmpty(request.Text);
         }
 
+        private void SetupTheme()
+        {
+            var themeService = Container.GetInstance<IThemeService>();
+            var configurtionService = Container.GetInstance<IConfigurationService>();
+
+            themeService.ChangeTheme(configurtionService.Theme, configurtionService.AccentColor, true);
+        }
+#endif
         private void SetupLocalization()
         {
             Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
@@ -132,14 +142,6 @@ namespace WavePlayer.UI
             localizationService.RegisterResource(typeof(Resources));
 
             localizationService.SetCurrentCulture(configurtionService.CultureId, true);
-        }
-
-        private void SetupTheme()
-        {
-            var themeService = Container.GetInstance<IThemeService>();
-            var configurtionService = Container.GetInstance<IConfigurationService>();
-
-            themeService.ChangeTheme(configurtionService.Theme, configurtionService.AccentColor, true);
         }
 
         private void SetupPages()

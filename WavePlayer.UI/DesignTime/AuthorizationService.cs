@@ -57,6 +57,10 @@ namespace WavePlayer.UI.DesignTime
         public void Logout()
         {
         }
+        
+        public void TrackUser()
+        {
+        }
     }
 }
 

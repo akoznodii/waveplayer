@@ -292,6 +292,22 @@ namespace WavePlayer.Providers
             return newAudio;
         }
 
+        public void Broadcast(Audio audio)
+        {
+            var audioId = 0L;
+            var ownerId = 0L;
+            var ownerType = OwnerType.User;
+
+            if (audio != null)
+            {
+                audioId = audio.Id;
+                ownerId = audio.OwnerId;
+                ownerType = audio.OwnerIsGroup ? OwnerType.Group : OwnerType.User;
+            }
+
+            _vkClient.Audios.SetBroadcast(audioId, ownerId, ownerType);
+        }
+
         public void Clear()
         {
             _audiosCache.Clean();

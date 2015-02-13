@@ -103,6 +103,10 @@ namespace WavePlayer.UI.DesignTime
             };
         }
 
+        public void Broadcast(Audio audio)
+        {
+        }
+
         private static ReadOnlyCollection<Genre> LoadGenres()
         {
             var genres = from genreId in Enumerable.Range(VK.Audios.Genre.None, VK.Audios.Genre.ElectropopAndDisco)

@@ -37,6 +37,8 @@ namespace WavePlayer.Providers
 
         Audio Add(Audio audio);
 
+        void Broadcast(Audio audio);
+
         void LoadCollection<T>(ICollection<T> collection);
 
         void Clear();

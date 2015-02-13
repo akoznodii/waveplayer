@@ -6,6 +6,7 @@ using VK;
 using VK.Audios;
 using WavePlayer.Localization;
 using WavePlayer.Media;
+using WavePlayer.Providers;
 using WavePlayer.UI.Commands;
 using WavePlayer.UI.Properties;
 using WavePlayer.UI.Threading;
@@ -17,7 +18,7 @@ namespace WavePlayer.UI.ViewModels
     {
         private readonly IPlayer _player;
         private readonly IPlayerEngine _playerEngine;
-        private readonly VkClient _vkClient;
+        private readonly IVkDataProvider _vkDataProvider;
         private readonly DispatcherTimer _timer;
         private readonly RelayCommand _forwardCommand;
         private readonly RelayCommand _rewindCommand;
@@ -33,11 +34,11 @@ namespace WavePlayer.UI.ViewModels
         private bool _broadcast;
         private long _broadcastedAudioId;
 
-        public PlayerViewModel(IPlayer player, VkClient vkClient)
+        public PlayerViewModel(IPlayer player, IVkDataProvider vkDataProvider)
         {
             _player = player;
             _playerEngine = _player.Engine;
-            _vkClient = vkClient;
+            _vkDataProvider = vkDataProvider;
             _timer = new DispatcherTimer()
             {
                 Interval = TimeSpan.FromMilliseconds(500)
@@ -307,9 +308,7 @@ namespace WavePlayer.UI.ViewModels
             }
 
             var audioId = audio.Id;
-            var ownerId = audio.OwnerId;
-            var ownerType = audio.OwnerIsGroup ? OwnerType.Group : OwnerType.User;
-
+            
             if (!_broadcast)
             {
                 if (_broadcastedAudioId == 0)
@@ -318,14 +317,14 @@ namespace WavePlayer.UI.ViewModels
                 }
 
                 audioId = 0;
-                ownerId = 0;
             }
 
             Task.Factory.StartNew(() =>
             {
                 try
                 {
-                    _vkClient.Audios.SetBroadcast(audioId, ownerId, ownerType);
+                    var broadcast = audioId != 0 ? audio : null;
+                    _vkDataProvider.Broadcast(broadcast);
                     _broadcastedAudioId = audioId;
                 }
                 catch(Exception e)
