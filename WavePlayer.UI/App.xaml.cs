@@ -11,9 +11,7 @@ namespace WavePlayer.UI
     /// </summary>
     public partial class App : Application
     {
-        private static readonly Lazy<IContainer> IoC = new Lazy<IContainer>(IoCBootstrapper.GetContainer, true);
-
-        public static IContainer Container { get { return IoC.Value; } }
+        public static IContainer Container { get { return IoCBootstrapper.Container; } }
 
         protected override void OnStartup(StartupEventArgs e)
         {

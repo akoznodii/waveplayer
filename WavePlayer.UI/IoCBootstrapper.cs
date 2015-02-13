@@ -9,7 +9,6 @@ using WavePlayer.Media;
 using WavePlayer.Providers;
 using WavePlayer.UI.Commands;
 using WavePlayer.UI.Dialogs;
-using WavePlayer.UI.Media;
 using WavePlayer.UI.Navigation;
 using WavePlayer.UI.Themes;
 using WavePlayer.UI.ViewModels;
@@ -20,10 +19,14 @@ namespace WavePlayer.UI
 {
     internal static class IoCBootstrapper
     {
+        private static readonly Lazy<IContainer> _initContainer = new Lazy<IContainer>(GetContainer, true);
+
+        public static IContainer Container { get { return _initContainer.Value; } }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "It is OK")]
-        public static IContainer GetContainer()
+        private static IContainer GetContainer()
         {
-            var container = Container.Instance;
+            var container = new Container();
             container.RegisterInstance(typeof(IContainer), container);
 
             var mainWindow = new HostWindow();
@@ -94,7 +97,7 @@ namespace WavePlayer.UI
 
             container.Register<VkClient>(() =>
             {
-                var instance = Container.Instance;
+                var instance = container;
 
                 var configurationService = instance.GetInstance<IConfigurationService>();
 

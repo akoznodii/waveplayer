@@ -34,7 +34,7 @@ namespace WavePlayer.UI.Commands
         {
             get
             {
-                return Container.Instance.GetInstance<CommandsContainer>();
+                return Container.GetInstance<CommandsContainer>();
             }
         }
 
@@ -62,6 +62,11 @@ namespace WavePlayer.UI.Commands
 
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Localizable resource string")]
         public string ShowAudioLyricsCommandName { get { return Resources.ShowAudioLyricsCommandName; } }
+
+        private static IContainer Container
+        {
+            get { return App.Container; }
+        }
 
         private void AddAudio(Audio audio)
         {
@@ -103,7 +108,7 @@ namespace WavePlayer.UI.Commands
             RemoveAudioCommand = new AsyncCommand<Audio>(RemoveAudio, CanRemoveAudio);
             SearchByArtistAudioCommand = new AsyncCommand<Audio>(audio => SearchAudio(audio.Artist), audio => audio != null && !string.IsNullOrEmpty(audio.Artist));
             SearchByTitleAudioCommand = new AsyncCommand<Audio>(audio => SearchAudio(audio.Title), audio => audio != null && !string.IsNullOrEmpty(audio.Title));
-            ShowAudioLyricsCommand = Container.Instance.GetInstance<LyricsViewModel>().SetupLyricsCommand;
+            ShowAudioLyricsCommand = Container.GetInstance<LyricsViewModel>().SetupLyricsCommand;
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Show error message to the end-user")]

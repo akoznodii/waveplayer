@@ -6,15 +6,12 @@ namespace WavePlayer.Ioc
 {
     public class Container : IContainer
     {
-        private static readonly Lazy<IContainer> _containerLazy = new Lazy<IContainer>(() => new Container(), true);
         private readonly SimpleInjector.Container _container;
 
-        private Container()
+        public Container()
         {
             _container = new SimpleInjector.Container();
         }
-
-        public static IContainer Instance { get { return _containerLazy.Value; } }
 
         public void Register<TService, TImplementation>()
             where TService : class
