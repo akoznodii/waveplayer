@@ -225,6 +225,9 @@
   <data name="RemoveAudioCommandName" xml:space="preserve">
     <value>Удалить трек</value>
   </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Сбросить</value>
+  </data>
   <data name="Restart" xml:space="preserve">
     <value>Перезапустить</value>
   </data>

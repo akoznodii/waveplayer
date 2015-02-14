@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using WavePlayer.Media;
 
 namespace WavePlayer.UI.ViewModels
@@ -24,13 +25,34 @@ namespace WavePlayer.UI.ViewModels
 
         public float Gain
         {
-            get { return _equalizer.GetBandGain(_frequency); }
-            set { _equalizer.SetBandGain(_frequency, value); }
+            get
+            {
+                return _equalizer.GetBandGain(_frequency);
+            }
+
+            set
+            {
+                _equalizer.SetBandGain(_frequency, value);
+                RaisePropertyChanged("GainLevel");
+            }
+        }
+
+        public string GainLevel
+        {
+            get { return ConvertGain(Gain); }
         }
 
         public void Refresh()
         {
             RaisePropertyChanged("Gain");
+            RaisePropertyChanged("GainLevel");
+        }
+
+        private static string ConvertGain(float gain)
+        {
+            var preffix = gain > 0 ? "+" : string.Empty;
+
+            return string.Format(CultureInfo.InvariantCulture, "{0}{1:F1}dB", preffix, gain);
         }
 
         private static string ConvertFrequency(int frequency)

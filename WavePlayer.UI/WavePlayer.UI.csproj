@@ -41,7 +41,7 @@
     <OutputPath>bin\x86\Debug\</OutputPath>
     <CodeAnalysisRuleSet>..\Settings.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <DefineConstants>DEBUG;CODE_ANALYSIS;DESIGN_DATA</DefineConstants>
+    <DefineConstants>DEBUG;CODE_ANALYSIS;</DefineConstants>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">

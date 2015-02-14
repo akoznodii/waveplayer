@@ -207,6 +207,18 @@ namespace WavePlayer.UI.DesignTime
             }
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "WPF requires property")]
+        public EqualizerViewModel EqualizerViewModel
+        {
+            get
+            {
+                EnsureInitialized();
+
+                var viewModel = Container.GetInstance<EqualizerViewModel>();
+                return viewModel;
+            }
+        }
+
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "What? It is called!")]
         private static void EnsureInitialized()
         {

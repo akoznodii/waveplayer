@@ -76,11 +76,14 @@ namespace WavePlayer.UI.ViewModels
 
             set
             {
-                if (SupportsEqualizer)
+                if (!SupportsEqualizer || _equalizer.IsEnabled == value)
                 {
-                    _equalizer.IsEnabled = value;
-                    RaisePropertyChanged("State");
+                    return;
                 }
+                
+                _equalizer.IsEnabled = value;
+                RaisePropertyChanged("State");
+                RaisePropertyChanged("IsEnabled");
             }
         }
 
@@ -97,6 +100,11 @@ namespace WavePlayer.UI.ViewModels
             }
         }
 
+        public string ResetString
+        {
+            get { return Resources.Reset; }
+        }
+
         public override void UpdateLocalization()
         {
             base.UpdateLocalization();
@@ -105,6 +113,8 @@ namespace WavePlayer.UI.ViewModels
             {
                 _equalizer.UpdateLocalization();
             }
+
+            RaisePropertyChanged("ResetString");
         }
 
         private bool CanResetEqualizer()
@@ -115,12 +125,17 @@ namespace WavePlayer.UI.ViewModels
         private void ResetEqualizer()
         {
             _equalizer.Reset();
+            RefreshBands();
         }
 
         private void OnPresetChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged("CurrentPreset");
+            RefreshBands();
+        }
 
+        private void RefreshBands()
+        {
             foreach (var band in Bands)
             {
                 band.Refresh();

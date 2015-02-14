@@ -10,8 +10,7 @@ namespace WavePlayer.UI.DesignTime
     {
         private static readonly IVkDataProvider _vkDataProvider = new VkDataProvider();
         private static readonly IAuthorizationService _authorizationService = new AuthorizationService();      
-        private static readonly IPlayerEngine _playerEngine = new PlayerEngine();
-        private static readonly IPlayer _player = new Player(_playerEngine);
+        private static readonly IPlayer _player = new Player();
 
         public static IVkDataProvider VkDataProvider { get { return _vkDataProvider; } }
 
@@ -19,7 +18,7 @@ namespace WavePlayer.UI.DesignTime
 
         public static IPlayer Player { get { return _player; } }
 
-        public static IPlayerEngine PlayerEngine { get { return _playerEngine; } }
+        public static IPlayerEngine PlayerEngine { get { return _player.Engine; } }
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using WavePlayer.Audios;
 using WavePlayer.Media;
 
@@ -11,9 +12,9 @@ namespace WavePlayer.UI.DesignTime
         private readonly IPlayerEngine _playerEngine;
         private readonly Tracklist<Audio> _tracklist = new Tracklist<Audio>(DesignData.VkDataProvider.GetRecommendedAudios(null, false).ToList());
         
-        public Player(IPlayerEngine playerEngine)
+        public Player()
         {
-            _playerEngine = playerEngine;
+            _playerEngine = new UI.DesignTime.PlayerEngine();
         }
 
         public IPlayerEngine Engine { get { return _playerEngine; } }

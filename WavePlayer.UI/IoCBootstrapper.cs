@@ -71,6 +71,7 @@ namespace WavePlayer.UI
                 typeof(LyricsViewModel),
                 typeof(GroupMusicViewModel),
                 typeof(UserMusicViewModel),
+                typeof(EqualizerViewModel)
             };
 
             container.RegisterAll(viewModels);
@@ -86,7 +87,8 @@ namespace WavePlayer.UI
                 typeof(SettingsViewModel), 
                 typeof(LyricsViewModel),
                 typeof(GroupMusicViewModel),
-                typeof(UserMusicViewModel));
+                typeof(UserMusicViewModel),
+                typeof(EqualizerViewModel));
 
             var localizables = new List<Type>(viewModels)
             {

@@ -7,7 +7,7 @@
              xmlns:models="clr-namespace:WavePlayer.Media;assembly=WavePlayer"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="500"
+             d:DesignHeight="400" d:DesignWidth="600" Background="{DynamicResource WhiteBrush}"
              d:DataContext="{Binding Path=EqualizerViewModel, Source={StaticResource DesignTimeViewModelsLocator}}">
 
     <UserControl.Resources>
@@ -23,61 +23,106 @@
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid Background="{DynamicResource WhiteBrush}" x:Name="Grid">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{StaticResource PageContentTitleHeightLength}"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="{StaticResource PageContentTitleHeightLength}"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <controls:ToggleSwitchButton  Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Width="60" Height="30" Margin="0,5,0,5" IsChecked="{Binding IsEnabled, Mode=TwoWay}"/>
-        <TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5,0,5,0"
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Margin="10,0,0,0"
+                    VerticalAlignment="Center" HorizontalAlignment="Left">
+            <controls:ToggleSwitchButton  IsChecked="{Binding IsEnabled, Mode=TwoWay}"/>
+
+            <TextBlock VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
                    Text="{Binding State, Mode=OneWay}"
                    Foreground="{StaticResource GrayBrush2}"
                    FontSize="14"/>
+        </StackPanel>
 
-        <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="5,0,5,0"
-                      MinWidth="160" HorizontalAlignment="Center" Height="20"
-                      Foreground="{DynamicResource GrayBrush2}"
-                      FontSize="14"
-                      SelectedItem="{Binding CurrentPreset, Mode=OneWay}"
-                      SelectedValue="{Binding CurrentPreset, Mode=OneWayToSource}"
-                      ItemsSource="{Binding Presets, Mode=OneWay}"/>
+        <ComboBox Grid.Row="1" Grid.Column="3" 
+                  Margin="0,0,10,0"
+                  MinWidth="160" HorizontalAlignment="Right" Height="20"
+                  Foreground="{DynamicResource GrayBrush2}"
+                  FontSize="14"
+                  SelectedItem="{Binding CurrentPreset, Mode=OneWay}"
+                  SelectedValue="{Binding CurrentPreset, Mode=OneWayToSource}"
+                  ItemsSource="{Binding Presets, Mode=OneWay}"/>
 
-        <ItemsControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" 
+        <Grid Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Margin="0,15,0,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0" Height="180">
+                <TextBlock Margin="0,-9,0,0" DockPanel.Dock="Top" Text="+12dB" TextAlignment="Center" Height="20" Foreground="{DynamicResource GrayBrush2}" FontSize="14"/>
+                <TextBlock Margin="0,0,0,10" DockPanel.Dock="Bottom" Text="-12dB" TextAlignment="Center" Height="20" Foreground="{DynamicResource GrayBrush2}" FontSize="14"/>
+                <TextBlock Margin="0,1,0,0" Text="0dB" TextAlignment="Center" Height="20" Foreground="{DynamicResource GrayBrush2}" FontSize="14"/>
+            </DockPanel>
+
+            <DockPanel Grid.Column="1" Height="180">
+                <Rectangle DockPanel.Dock="Top" Height="1" Fill="{DynamicResource GrayBrush7}" StrokeThickness="0"/>
+                <Rectangle Margin="0,0,0,20" DockPanel.Dock="Bottom" Height="1" Fill="{DynamicResource GrayBrush7}" StrokeThickness="0"/>
+                <Rectangle Height="1" Fill="{DynamicResource GrayBrush7}" StrokeThickness="0"/>
+            </DockPanel>
+
+            <ItemsControl Grid.Column="1"
                       VerticalAlignment="Center"
                       HorizontalAlignment="Center"
+                      IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                       ItemsSource="{Binding Path=Bands, Mode=OneWay}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type viewModels:EqualizerBandViewModel}">
-                    <StackPanel VerticalAlignment="Center"
-                                HorizontalAlignment="Center" Margin="5">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:EqualizerBandViewModel}">
+                        <StackPanel VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" Margin="5">
 
-                        <Slider Minimum="{Binding MinimumGain, Mode=OneWay}" 
-                                Maximum="{Binding MaximumGain, Mode=OneWay}" 
-                                Value="{Binding Path=Gain, Mode=TwoWay}"
-                                Style="{StaticResource FlatSlider}" Height="160" Orientation="Vertical" IsMoveToPointEnabled="True"
-                                HorizontalAlignment="Center" TickPlacement="Both" TickFrequency="1"/>
-                        
-                        <TextBlock Foreground="{DynamicResource GrayBrush2}"
-                                   FontSize="14"
-                                   Width="30"
-                                   TextAlignment="Center"
-                                   FontWeight="SemiBold"
-                                   Text="{Binding Path=Frequency, Mode=OneWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                            <Slider Minimum="{Binding MinimumGain, Mode=OneWay}" 
+                                    Maximum="{Binding MaximumGain, Mode=OneWay}" 
+                                    Value="{Binding Path=Gain, Delay=100, Mode=TwoWay}"
+                                    Style="{StaticResource FlatSlider}"
+                                    Height="160"  
+                                    Orientation="Vertical" 
+                                    IsMoveToPointEnabled="True"
+                                    HorizontalAlignment="Center"
+                                    AutoToolTipPlacement="TopLeft"
+                                    AutoToolTipPrecision="1"
+                                    ToolTip="{Binding GainLevel, Mode=OneWay}"/>
+
+                            <TextBlock Foreground="{DynamicResource GrayBrush2}"
+                                       FontSize="14"
+                                       Width="30"
+                                       Height="20"
+                                       TextAlignment="Center"
+                                       Text="{Binding Path=Frequency, Mode=OneWay}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+
+        <Button Grid.Column="3" Grid.Row="3" Margin="0,0,10,0"
+                VerticalAlignment="Center" HorizontalAlignment="Right"
+                Style="{DynamicResource WaveplayButton}"
+                Command="{Binding ResetCommand, Mode=OneWay}">
+            <TextBlock Text="{Binding ResetString, Mode=OneWay}" Style="{DynamicResource WaveplayButtonTextBlock}"/>
+        </Button>
+
     </Grid>
 </UserControl>
