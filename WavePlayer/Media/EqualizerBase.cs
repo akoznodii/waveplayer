@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using WavePlayer.Localization;
 
 namespace WavePlayer.Media
 {
@@ -64,15 +63,15 @@ namespace WavePlayer.Media
             var defaultPreset = EqualizerPreset.DefaultPresets[EqualizerPreset.Default];
 
             SetManualPresetBands(defaultPreset.Bands);
+
+            SetPresetBands(CurrentPreset);
         }
 
         public void SetBandGain(int frequency, float gain)
         {
             SetBandGainInternal(frequency, gain);
 
-            SetManualPreset();
-
-            SaveBandGain(frequency, gain);
+            SetManualPreset(frequency, gain);
         }
 
         public float GetBandGain(int frequency)
@@ -93,17 +92,16 @@ namespace WavePlayer.Media
         protected abstract float GetBandGainInternal(int frequency);
 
         protected abstract void InitializeInternal(bool isEnabled, IDictionary<int, float> bands);
-        
-        private void SetManualPreset()
+
+        private void SetManualPreset(int frequency, float gain)
         {
-            var currentPreset = CurrentPreset;
+            EqualizerPreset manualPreset = null;
 
-            if (currentPreset.Name == EqualizerPreset.Manual)
-            {
-                return;
-            }
+            manualPreset = CurrentPreset.Name != EqualizerPreset.Manual ? SetManualPresetBands(CurrentPreset.Bands) : CurrentPreset;
 
-            CurrentPreset = SetManualPresetBands(currentPreset.Bands);
+            manualPreset.Bands[frequency] = gain;
+            
+            CurrentPreset = manualPreset;
         }
 
         private void SetPresetBands(EqualizerPreset currentPreset)
@@ -124,16 +122,6 @@ namespace WavePlayer.Media
             }
 
             return manualPreset;
-        }
-
-        private void SaveBandGain(int frequency, float gain)
-        {
-            if (CurrentPreset.Name != EqualizerPreset.Manual)
-            {
-                return;
-            }
-
-            CurrentPreset.Bands[frequency] = gain;
         }
     }
 }
