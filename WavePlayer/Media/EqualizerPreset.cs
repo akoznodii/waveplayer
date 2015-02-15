@@ -19,7 +19,7 @@ namespace WavePlayer.Media
 
         private static readonly ICollection<int> FrequencyRange = new Collection<int>()
         {
-            32, 64, 125, 250, 500, 1000, 2000, 8000, 4000, 16000 
+            32, 64, 125, 250, 500, 1000, 200, 4000, 8000, 16000 
         };
 
         private string _displayName;
