@@ -120,6 +120,9 @@
   <data name="Default" xml:space="preserve">
     <value>По умолчанию</value>
   </data>
+  <data name="Headphones" xml:space="preserve">
+    <value>Наушники</value>
+  </data>
   <data name="LanguageNotFound" xml:space="preserve">
     <value>Язык не был найден</value>
   </data>

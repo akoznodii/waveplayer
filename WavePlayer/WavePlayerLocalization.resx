@@ -117,14 +117,68 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Acoustic" xml:space="preserve">
+    <value>Acoustic</value>
+  </data>
+  <data name="BassBoost" xml:space="preserve">
+    <value>Bass boost</value>
+  </data>
+  <data name="Classical" xml:space="preserve">
+    <value>Classical</value>
+  </data>
+  <data name="Dance" xml:space="preserve">
+    <value>Dance</value>
+  </data>
   <data name="Default" xml:space="preserve">
     <value>Default</value>
+  </data>
+  <data name="Electronic" xml:space="preserve">
+    <value>Club</value>
+  </data>
+  <data name="Headphones" xml:space="preserve">
+    <value>Headphones</value>
+  </data>
+  <data name="HipHop" xml:space="preserve">
+    <value>Hip-Hop</value>
+  </data>
+  <data name="Jazz" xml:space="preserve">
+    <value>Jazz</value>
   </data>
   <data name="LanguageNotFound" xml:space="preserve">
     <value>Language not found</value>
   </data>
+  <data name="Live" xml:space="preserve">
+    <value>Live</value>
+  </data>
+  <data name="Loudness" xml:space="preserve">
+    <value>Loudness</value>
+  </data>
   <data name="Manual" xml:space="preserve">
     <value>Manual</value>
+  </data>
+  <data name="Party" xml:space="preserve">
+    <value>Party</value>
+  </data>
+  <data name="Pop" xml:space="preserve">
+    <value>Pop</value>
+  </data>
+  <data name="Reggae" xml:space="preserve">
+    <value>Reggae</value>
+  </data>
+  <data name="RhythmAndBlues" xml:space="preserve">
+    <value>RnB</value>
+  </data>
+  <data name="Rock" xml:space="preserve">
+    <value>Rock</value>
+  </data>
+  <data name="Ska" xml:space="preserve">
+    <value>Ska</value>
+  </data>
+  <data name="Speech" xml:space="preserve">
+    <value>Speech</value>
+  </data>
+  <data name="Techno" xml:space="preserve">
+    <value>Techno</value>
   </data>
   <data name="TypeIsNotResource" xml:space="preserve">
     <value>Specified type '{0}' is not a resource type</value>
