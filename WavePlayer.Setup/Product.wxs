@@ -77,6 +77,7 @@
         <File Source="$(var.WavePlayer.UI.TargetDir)vksdk.dll"/>
         <File Source="$(var.WavePlayer.UI.TargetDir)vksdk.dll.config"/>
         <File Source="$(var.WavePlayer.UI.TargetDir)WavePlayer.dll"/>
+        <File Source="$(var.WavePlayer.UI.TargetDir)fmod.dll"/>
 
         <RemoveFolder Id="RemoveProductProgramsFolder" Directory="ProductProgramMenuFolder" On="uninstall"/>
         <RemoveFolder Id="RemoveProductFolder" Directory="INSTALLFOLDER" On="uninstall"/>
