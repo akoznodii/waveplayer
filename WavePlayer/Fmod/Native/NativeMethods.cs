@@ -132,12 +132,12 @@ namespace WavePlayer.Fmod.Native
         [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_DSP_Release"), SuppressUnmanagedCodeSecurity]
         public static extern ErrorCode ReleaseDsp(IntPtr dsp);
 
-        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_DSP_SetActive"), SuppressUnmanagedCodeSecurity]
-        public static extern ErrorCode SetActive(IntPtr dsp, [MarshalAs(UnmanagedType.Bool)]bool active);
+        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_DSP_SetBypass"), SuppressUnmanagedCodeSecurity]
+        public static extern ErrorCode SetBypass(IntPtr dsp, [MarshalAs(UnmanagedType.Bool)]bool active);
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "May be used later")]
-        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_DSP_GetActive"), SuppressUnmanagedCodeSecurity]
-        public static extern ErrorCode GetActive(IntPtr dsp, [MarshalAs(UnmanagedType.Bool)] out bool active);
+        [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_DSP_GetBypass"), SuppressUnmanagedCodeSecurity]
+        public static extern ErrorCode GetBypass(IntPtr dsp, [MarshalAs(UnmanagedType.Bool)] out bool active);
 
         [DllImport(FmodLibrary.Name, EntryPoint = "FMOD_DSP_SetParameterFloat"), SuppressUnmanagedCodeSecurity]
         public static extern ErrorCode SetParameter(IntPtr dsp, int index, float value);

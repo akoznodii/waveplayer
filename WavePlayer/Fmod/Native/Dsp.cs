@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WavePlayer.Fmod.Native
 {
@@ -14,18 +10,18 @@ namespace WavePlayer.Fmod.Native
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "May be used later")]
-        public bool IsActive
+        public bool Bypass
         {
             get
             {
                 var result = false;
-                ErrorHandler.ThrowIfError(NativeMethods.GetActive(DangerousGetHandle(), out result));
+                ErrorHandler.ThrowIfError(NativeMethods.GetBypass(DangerousGetHandle(), out result));
                 return result;
             }
 
             set
             {
-                ErrorHandler.ThrowIfError(NativeMethods.SetActive(DangerousGetHandle(), value));
+                ErrorHandler.ThrowIfError(NativeMethods.SetBypass(DangerousGetHandle(), value));
             }
         }
 

@@ -30,9 +30,11 @@ namespace WavePlayer.Fmod
                     return;
                 }
 
+                var bypass = !value;
+
                 foreach (var band in _bands.Values)
                 {
-                    band.IsActive = value;
+                    band.Bypass = bypass;
                 }
 
                 _system.Update();
@@ -58,7 +60,7 @@ namespace WavePlayer.Fmod
                     dsp.SetParameter((int)EqualizerParameters.FMOD_DSP_PARAMEQ_CENTER, frequency);
                     dsp.SetParameter((int)EqualizerParameters.FMOD_DSP_PARAMEQ_BANDWIDTH, 1);
                     dsp.SetParameter((int)EqualizerParameters.FMOD_DSP_PARAMEQ_GAIN, gain);
-                    dsp.IsActive = isEnabled;
+                    dsp.Bypass = !isEnabled;
 
                     channelGroup.Add(dsp);
 
